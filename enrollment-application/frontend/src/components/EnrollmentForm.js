@@ -11,16 +11,16 @@ function EnrollmentFormModel() {
 
     const [submitEnabled, setSubmitEnabled] = React.useState(false)
     const [serverAddress, setServerAddress] = React.useState("")
-    const [accountEmail, setAccountEmail] = React.useState("")
+    const [accountId, setAccountId] = React.useState("")
 
     useEffect(_ => {
-        setSubmitEnabled(serverAddress && accountEmail)
-    }, [serverAddress, accountEmail])
+        setSubmitEnabled(serverAddress && accountId)
+    }, [serverAddress, accountId])
 
     return {
         submitEnabled,
         serverAddress, setServerAddress,
-        accountEmail, setAccountEmail,
+        accountId, setAccountId,
     }
 }
 
@@ -31,12 +31,12 @@ function EnrollmentForm({ enroll }) {
     const {
         submitEnabled,
         serverAddress, setServerAddress,
-        accountEmail, setAccountEmail
+        accountId, setAccountId
     } = EnrollmentFormModel()
 
     const onEnroll = () => {
-        if (serverAddress && accountEmail) {
-            enroll(serverAddress, accountEmail)
+        if (serverAddress && accountId) {
+            enroll(serverAddress, accountId)
         }
     }
 
@@ -48,7 +48,7 @@ function EnrollmentForm({ enroll }) {
                     <TextField defaultValue={serverAddress} label={t("Server Address")} onChange={e => setServerAddress(e.target.value)} variant="standard" />
                 </div>
                 <div>
-                    <TextField defaultValue={accountEmail} type="email" onChange={e => setAccountEmail(e.target.value)} label={t("Account E-mail")} variant="standard" />
+                    <TextField defaultValue={accountId} type="text" onChange={e => setAccountId(e.target.value)} label={t("Organization Login")} variant="standard" />
                 </div>
                 <div className="button-area">
                     <Button variant="outlined" disabled={!submitEnabled} onClick={_ => onEnroll()}>{t("Register this machine")}</Button>
