@@ -15,8 +15,8 @@ func main() {
 	css := mewn.String("./frontend/build/static/css/main.css")
 
 	app := wails.CreateApp(&wails.AppConfig{
-		Width:  400,
-		Height: 400,
+		Width:  450,
+		Height: 450,
 		Title:  "Convid Remote Desktop Provider",
 		JS:     js,
 		CSS:    css,

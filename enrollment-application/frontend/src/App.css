@@ -10,6 +10,11 @@
 .App .logo{
   width: 100px;
 }
+
+.App .button-area {
+  margin-top: 2rem;
+}
+
 .App .logoFooter {
   width: 12px;
   margin: 0 5px;
@@ -18,4 +23,22 @@
 .App .heartIcon {
   width: 12px;
   margin: 0 5px;
+}
+
+.App .loadingIcon {
+  width: 50px
+}
+
+.App .machineid-area h1 {
+  background: #F4F4F4;
+  padding: 1rem;
+}
+
+.App .copy-button {
+  opacity: .5;
+  height: 20px;
+  margin-left: 5px;
+}
+.App .copy-button:hover {
+  opacity: 1;
 }

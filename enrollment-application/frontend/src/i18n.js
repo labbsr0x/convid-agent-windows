@@ -10,7 +10,7 @@ i18n
             en: en_US,
             pt: pt_BR
         },
-        lng: "pt",
+        lng: "en",
 
         // keySeparator: false, // we do not use keys in form messages.welcome
 
