@@ -2,6 +2,8 @@ import React from 'react';
 
 import { useTranslation } from 'react-i18next';
 
+import { copyTextToClipboard } from "./helpers";
+
 import logo from './logo.png';
 import logoBB from './logo-bb.png';
 import iconHeart from './iconHeart.png';
@@ -18,10 +20,10 @@ function AppModel() {
 
   const enroll = () => {
     setBusy(true)
-    window.backend.basic().then(result => {
-      setTimeout(_ => setMachineId(result), 2000)
+    // window.backend.basic().then(result => {
+    //   setTimeout(_ => setMachineId(result), 2000)
 
-    });
+    // });
     setTimeout(_ => { setMachineId("JAX99357"); setBusy(false) }, 1000)
   }
   return {
@@ -51,7 +53,7 @@ function App() {
           {!machineId && <EnrollmentForm enroll={enroll} />}
           {machineId && <div className="machineid-area">
             <div>{t("Machine successfully registered")}</div>
-            <h1>{machineId} <img src={copyIcon} alt="Copy" className="copy-button" title={t("Copy to clipboard")} /></h1>
+            <h1>{machineId} <img src={copyIcon} alt="Copy" onClick={_ => copyTextToClipboard(machineId)} className="copy-button" title={t("Copy to clipboard")} /></h1>
             <div>{t("Take a picture or write down a note of the above code because it will be requested when remotely accessing this machine")}</div>
           </div>}
         </div>
