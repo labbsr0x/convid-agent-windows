@@ -9,9 +9,13 @@ import (
 func TestRegister(t *testing.T) {
 	client := resty.New()
 
-	code, _ := register(client, "fakeaddress", "fakeaccount")
+	resp, err := register(client, "http://fakeaddress", "fakeaccount")
 
-	if code == "" {
+	if err != nil {
+		t.Errorf("Not expected error: %s", err)
+	}
+
+	if resp.Code == "" {
 		t.Errorf("The registration not returns the code")
 	}
 }
@@ -29,7 +33,7 @@ func TestRegisterWithoutAddress(t *testing.T) {
 func TestRegisterWithoutAccount(t *testing.T) {
 	client := resty.New()
 
-	_, err := register(client, "fakeaddress", "")
+	_, err := register(client, "http://fakeaddress", "")
 
 	if err == nil || err.Error() != "Account not informed" {
 		t.Errorf("The not informed account handler is not working")

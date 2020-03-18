@@ -14,7 +14,7 @@ type RegistrationResponse struct {
 	SSHPort string
 }
 
-func register(client *resty.Client, address string, account string) (code string, err error) {
+func register(client *resty.Client, address string, account string) (code RegistrationResponse, err error) {
 
 	if client == nil {
 		err = fmt.Errorf("Resty http client not informed")
@@ -45,8 +45,7 @@ func register(client *resty.Client, address string, account string) (code string
 		return
 	}
 
-	//code = resp.Result().
-	code = "JIV0907"
+	code = resp.Result().(RegistrationResponse)
 
 	return
 }
