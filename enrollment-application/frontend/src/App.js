@@ -43,17 +43,17 @@ function App() {
         <img src={logo} alt="BB" className="logo" />
       </div>
       {!busy && <>
-        <div>
+        <div className="content-area">
           {!machineId && <EnrollmentForm enroll={enroll} />}
           {machineId && <div className="machineid-area">
             <div>{t("Machine successfully registered")}</div>
-            <h1>{machineId} <img src={copyIcon} alt="Copy" className="copy-button" /></h1>
+            <h1>{machineId} <img src={copyIcon} alt="Copy" className="copy-button" title={t("Copy to clipboard")} /></h1>
             <div>{t("Take a picture or write down a note of the above code because it will be requested when remotely accessing this machine")}</div>
           </div>}
         </div>
       </>}
       {busy && <>
-        <div>
+        <div className="loading-area">
           <h1>{t("Your machine is being registered")}...</h1>
           <img src={loadingIcon} alt="Loading" className="loadingIcon" />
         </div>

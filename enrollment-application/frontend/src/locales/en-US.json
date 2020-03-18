@@ -5,6 +5,7 @@
 		"Register this machine": "Register this machine",
 		"Machine successfully registered": "Machine successfully registered",
 		"Your machine is being registered": "Your machine is being registered",
-		"Take a picture or write down a note of the above code because it will be requested when remotely accessing this machine": "Take a picture or write down a note of the above code because it will be requested when remotely accessing this machine"
+		"Take a picture or write down a note of the above code because it will be requested when remotely accessing this machine": "Take a picture or write down a note of the above code because it will be requested when remotely accessing this machine",
+		"Copy to clipboard": "Copy to clipboard"
 	}
 }
