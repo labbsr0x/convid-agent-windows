@@ -9,6 +9,8 @@ import (
 func TestRegister(t *testing.T) {
 	client := resty.New()
 
+	// TODO(ralphg6) mock the client
+
 	resp, err := register(client, "http://fakeaddress", "fakeaccount")
 
 	if err != nil {
