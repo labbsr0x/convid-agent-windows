@@ -14,11 +14,15 @@ import './App.css';
 function AppModel() {
 
   const [busy, setBusy] = React.useState(false)
-  const [machineId, setMachinedId] = React.useState("")
+  const [machineId, setMachineId] = React.useState("")
 
   const enroll = () => {
     setBusy(true)
-    setTimeout(_ => { setMachinedId("JAX99357"); setBusy(false) }, 3000)
+    window.backend.basic().then(result => {
+      setTimeout(_ => setMachineId(result), 2000)
+
+    });
+    setTimeout(_ => { setMachineId("JAX99357"); setBusy(false) }, 1000)
   }
   return {
     busy,
