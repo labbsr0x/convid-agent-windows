@@ -3,9 +3,23 @@ package main
 import (
 	"fmt"
 	"log"
+
+	"github.com/go-resty/resty/v2"
 )
 
-func register(address string, account string) (code string, err error) {
+// RegistrationResponse the reponse with code
+type RegistrationResponse struct {
+	Code    string
+	SSHHost string
+	SSHPort string
+}
+
+func register(client *resty.Client, address string, account string) (code string, err error) {
+
+	if client == nil {
+		err = fmt.Errorf("Resty http client not informed")
+		return
+	}
 
 	if address == "" {
 		err = fmt.Errorf("Address not informed")
@@ -18,6 +32,21 @@ func register(address string, account string) (code string, err error) {
 	}
 
 	log.Printf("Initing registration with address:%s account:%s\n", address, account)
-	code = "JSD2342"
+
+	client.SetDebug(true)
+
+	resp, err := client.R().
+		EnableTrace().
+		SetHeader("Accept", "application/json").
+		SetResult(&RegistrationResponse{}).
+		Post(fmt.Sprintf("%s/accounts/%s/machine", address, account))
+
+	if err != nil {
+		return
+	}
+
+	//code = resp.Result().
+	code = "JIV0907"
+
 	return
 }

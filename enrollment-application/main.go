@@ -6,6 +6,7 @@ import (
 	"os/exec"
 	"runtime"
 
+	"github.com/go-resty/resty/v2"
 	"github.com/leaanthony/mewn"
 	"github.com/wailsapp/wails"
 )
@@ -24,6 +25,9 @@ func basic() string {
 }
 
 func main() {
+	client := resty.New()
+
+	register(client, "http://localhost:9090", "banco-brasil")
 
 	js := mewn.String("./frontend/build/static/js/main.js")
 	css := mewn.String("./frontend/build/static/css/main.css")
