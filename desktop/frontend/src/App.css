@@ -1,0 +1,21 @@
+.App {
+  margin-top: 25px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.App .logo{
+  width: 100px;
+}
+.App .logoFooter {
+  width: 12px;
+  margin: 0 5px;
+}
+
+.App .heartIcon {
+  width: 12px;
+  margin: 0 5px;
+}
