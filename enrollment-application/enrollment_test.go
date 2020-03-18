@@ -22,6 +22,14 @@ func TestRegister(t *testing.T) {
 	}
 }
 
+func TestRegisterWithoutClientHTTP(t *testing.T) {
+	_, err := register(nil, "http://fakeaddress", "fakeaccount")
+
+	if err == nil || err.Error() != "Resty http client not informed" {
+		t.Errorf("The not informed address handler is not working")
+	}
+}
+
 func TestRegisterWithoutAddress(t *testing.T) {
 	client := resty.New()
 
