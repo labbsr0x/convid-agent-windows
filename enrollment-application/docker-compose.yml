@@ -1,0 +1,17 @@
+version: "3.5"
+
+services:
+    ssh-server:
+        image: linuxserver/openssh-server
+        environment:
+            - PUID=1000
+            - PGID=1000
+            - TZ=America/Sao_Paulo
+            # - SUDO_ACCESS=true #optional
+            - PASSWORD_ACCESS=true #optional
+            - USER_NAME=convid19 #optional
+            - USER_PASSWORD=c0nv1d19 #optional
+        # volumes: 
+        #     - ./server:/config/ssh_host_keys
+        ports:
+            - 2222:2222
