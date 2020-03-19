@@ -22,3 +22,4 @@ services:
         image: containous/whoami
         ports:
             - 3389:80            
+            - 8111:8111
