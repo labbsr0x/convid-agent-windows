@@ -47,5 +47,7 @@ func register(address string, account string) (result map[string]string, err err
 		err = fmt.Errorf("Error requesting: %d", response.StatusCode)
 	}
 
+	logrus.Infof("SSH Information received. Host: %s | Port: %s | TunnelPort: %s", result["sshHost"], result["sshPort"], result["tunnelPort"])
+
 	return
 }
