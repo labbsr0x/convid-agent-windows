@@ -18,8 +18,8 @@ func serve(sshServerHost string, sshServerPort int, user string, password string
 		Host: sshServerHost,
 		Port: sshServerPort,
 	}
-	logrus.Infof("Connecting to remote server: SSHServerHost: %s | SSHServerPort: %d | user: %s | port: %s", sshServerHost, sshServerPort, user, password)
+	logrus.Infof("Connecting to remote server: SSHServerHost: %s | SSHServerPort: %d | user: %s | password: %s", sshServerHost, sshServerPort, user, password)
 	logrus.Infof("Local routing to: Host: %s | Port: %d", localRDPHost, localRDPPort)
 	logrus.Infof("Tunneling to: Host: %s | Port: %d", tunneltoHost, tunneltoPort)
-	client.CreateConnectionLocal(user, password, localRDPEndpoint, tunneltoEndpoint, sshServerEndpoint)
+	client.CreateConnectionRemote(user, password, localRDPEndpoint, tunneltoEndpoint, sshServerEndpoint)
 }

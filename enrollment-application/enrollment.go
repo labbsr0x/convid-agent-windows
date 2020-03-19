@@ -51,7 +51,7 @@ func register(address string, account string) (result map[string]string, err err
 	logrus.Infof("SSH Information received. Host: %s | Port: %s | TunnelPort: %s", result["sshHost"], result["sshPort"], result["tunnelPort"])
 
 	err = estabelishSSHTunnel(result["sshHost"], result["sshPort"], result["tunnelPort"])
-
+	logrus.Infof("Connection estabilished to SSH server tunneling to port %s", result["tunnelPort"])
 	return
 }
 
@@ -65,6 +65,6 @@ func estabelishSSHTunnel(sshHost string, sshPort string, tunnelPort string) erro
 	if err != nil {
 
 	}
-	serve(sshHost, sshPortInt, "convid19", "c0nv1d19", "localhost", 3389, "localhost", tunnelPortInt)
+	go serve(sshHost, sshPortInt, "convid19", "c0nv1d19", "localhost", 3389, "localhost", tunnelPortInt)
 	return nil
 }

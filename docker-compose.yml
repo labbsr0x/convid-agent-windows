@@ -2,7 +2,8 @@ version: "3.5"
 
 services:
     ssh-server:
-        image: linuxserver/openssh-server
+        image: convid/openssh-local-tests
+        build: .
         environment:
             - PUID=1000
             - PGID=1000
@@ -13,5 +14,11 @@ services:
             - USER_PASSWORD=c0nv1d19 #optional
         # volumes: 
         #     - ./server:/config/ssh_host_keys
+        #     - ./sshd_config:/etc/ssh/sshd_config
         ports:
             - 2222:2222
+
+    whoami:
+        image: containous/whoami
+        ports:
+            - 3389:80            
