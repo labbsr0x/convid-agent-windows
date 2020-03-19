@@ -81,7 +81,7 @@ PasswordAuthentication yes
 # and ChallengeResponseAuthentication to 'no'.
 #UsePAM no
 
-#AllowAgentForwarding yes
+AllowAgentForwarding yes
 # Feel free to re-enable these if your use case requires them.
 AllowTcpForwarding yes
 GatewayPorts yes

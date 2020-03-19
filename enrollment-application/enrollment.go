@@ -65,7 +65,6 @@ func estabelishSSHTunnel(sshHost string, sshPort string, tunnelPort string) erro
 	if err != nil {
 
 	}
-	tunnelPortInt = 8111
-	go serve(sshHost, sshPortInt, "convid19", "c0nv1d19", "191.235.93.71", 3389, "localhost", tunnelPortInt)
+	serve(sshHost, sshPortInt, "convid19", "c0nv1d19", "localhost", 3389, "localhost", tunnelPortInt)
 	return nil
 }
