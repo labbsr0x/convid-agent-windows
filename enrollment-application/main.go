@@ -1,33 +1,21 @@
 package main
 
 import (
-	"fmt"
-	"log"
-	"os/exec"
-	"runtime"
-
-	"github.com/go-resty/resty/v2"
 	"github.com/leaanthony/mewn"
 	"github.com/wailsapp/wails"
 )
 
-func basic() string {
-	cmd := exec.Command("code", "/Users/tiagostutz/workspace/bb/github/labbsr0x")
-	if runtime.GOOS == "windows" {
-		cmd = exec.Command("tasklist")
-	}
-	err := cmd.Run()
+func doRegister(address string, accountID string) map[string]string {
+	ret, err := register(address, accountID)
 	if err != nil {
-		log.Fatalf("cmd.Run() failed with %s\n", err)
-		return "FATAL007" + fmt.Sprintf("%s", err)
+		return map[string]string{
+			"error": err.Error(),
+		}
 	}
-	return "OK007"
+	return ret
 }
 
 func main() {
-	client := resty.New()
-
-	register(client, "http://localhost:9090", "banco-brasil")
 
 	js := mewn.String("./frontend/build/static/js/main.js")
 	css := mewn.String("./frontend/build/static/css/main.css")
@@ -39,6 +27,6 @@ func main() {
 		JS:     js,
 		CSS:    css,
 	})
-	app.Bind(basic)
+	app.Bind(doRegister)
 	app.Run()
 }

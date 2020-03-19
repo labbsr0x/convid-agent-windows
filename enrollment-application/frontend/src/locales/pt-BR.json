@@ -1,12 +1,16 @@
 {
 	"translation": {
-		"Server Address": "Endereço do Servidor",
 		"Account E-mail": "E-mail de cadastro",
-		"Register this machine": "Habilitar essa máquina",
-		"Machine successfully registered": "Máquina habilitada com sucesso!",
-		"Your machine is being registered": "Sua máquina está sendo habilitada",
-		"Take a picture or write down a note of the above code because it will be requested when remotely accessing this machine": "Tire uma foto ou anote o código acima pois ele será solicitado na realização da conexão remota a essa máquina",
 		"Copy to clipboard": "Copiar código",
-		"Organization Login": "Seu CNPJ"
+		"Error registering": "Erro ao registrar",
+		"Machine successfully registered": "Máquina habilitada com sucesso!",
+		"Organization Login": "Seu CNPJ",
+		"Register this machine": "Habilitar essa máquina",
+		"Server Address": "Endereço do Servidor",
+		"Try again": "Tentar novamente",
+		"Company not found with ID": "Empresa não encontrada para o CNPJ",
+		"Take a picture or write down a note of the above code because it will be requested when remotely accessing this machine": "Tire uma foto ou anote o código acima pois ele será solicitado na realização da conexão remota a essa máquina",
+		"Unreachable host": "Endereço não encontrado",
+		"Your machine is being registered": "Sua máquina está sendo habilitada"
 	}
 }
