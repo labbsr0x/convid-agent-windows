@@ -3,7 +3,10 @@ package main
 import (
 	"github.com/leaanthony/mewn"
 	"github.com/wailsapp/wails"
+	"github.com/wailsapp/wails/runtime"
 )
+
+var agentInstance *Agent
 
 func doRegister(address string, accountID string) map[string]string {
 	ret, err := register(address, accountID)
@@ -17,6 +20,14 @@ func doRegister(address string, accountID string) map[string]string {
 
 func main() {
 
+	var err error
+	agentInstance, err = NewAgent()
+
+	if err != nil {
+		runtime.NewLog().New("Agent").Fatal("Could not initialize agent")
+		return
+	}
+
 	js := mewn.String("./frontend/build/static/js/main.js")
 	css := mewn.String("./frontend/build/static/css/main.css")
 
@@ -27,6 +38,7 @@ func main() {
 		JS:     js,
 		CSS:    css,
 	})
+	app.Bind(agentInstance)
 	app.Bind(doRegister)
 	app.Run()
 }

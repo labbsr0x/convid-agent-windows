@@ -46,9 +46,12 @@ func register(address string, account string) (result map[string]string, err err
 	json.NewDecoder(response.Body).Decode(&result)
 	if response.StatusCode != 200 {
 		err = fmt.Errorf("Error requesting: %d", response.StatusCode)
+		return
 	}
 
 	logrus.Infof("SSH Information received. Host: %s | Port: %s | TunnelPort: %s", result["sshHost"], result["sshPort"], result["tunnelPort"])
+
+	agentInstance.SaveConfig(result["machineId"], result["sshHost"], result["sshPort"], result["tunnelPort"])
 
 	err = estabelishSSHTunnel(result["sshHost"], result["sshPort"], result["tunnelPort"])
 	logrus.Infof("Connection estabilished to SSH server tunneling to port %s", result["tunnelPort"])
@@ -59,12 +62,12 @@ func register(address string, account string) (result map[string]string, err err
 func estabelishSSHTunnel(sshHost string, sshPort string, tunnelPort string) error {
 	sshPortInt, err := strconv.Atoi(sshPort)
 	if err != nil {
-
+		return err
 	}
 	tunnelPortInt, err := strconv.Atoi(tunnelPort)
 	if err != nil {
-
+		return err
 	}
-	serve(sshHost, sshPortInt, "convid19", "c0nv1d19", "localhost", 3389, "localhost", tunnelPortInt)
+	go serve(sshHost, sshPortInt, "convid19", "c0nv1d19", "localhost", 3389, "localhost", tunnelPortInt)
 	return nil
 }

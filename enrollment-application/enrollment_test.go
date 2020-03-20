@@ -2,8 +2,6 @@ package main
 
 import (
 	"testing"
-
-	"github.com/go-resty/resty/v2"
 )
 
 func TestRegister(t *testing.T) {
@@ -23,7 +21,7 @@ func TestRegister(t *testing.T) {
 }
 
 func TestRegisterWithoutClientHTTP(t *testing.T) {
-	_, err := register(nil, "http://fakeaddress", "fakeaccount")
+	_, err := register("http://fakeaddress", "fakeaccount")
 
 	if err == nil || err.Error() != "Resty http client not informed" {
 		t.Errorf("The not informed address handler is not working")
@@ -31,9 +29,7 @@ func TestRegisterWithoutClientHTTP(t *testing.T) {
 }
 
 func TestRegisterWithoutAddress(t *testing.T) {
-	client := resty.New()
-
-	_, err := register(client, "", "fakeaccount")
+	_, err := register("", "fakeaccount")
 
 	if err == nil || err.Error() != "Address not informed" {
 		t.Errorf("The not informed address handler is not working")
@@ -41,9 +37,7 @@ func TestRegisterWithoutAddress(t *testing.T) {
 }
 
 func TestRegisterWithoutAccount(t *testing.T) {
-	client := resty.New()
-
-	_, err := register(client, "http://fakeaddress", "")
+	_, err := register("http://fakeaddress", "")
 
 	if err == nil || err.Error() != "Account not informed" {
 		t.Errorf("The not informed account handler is not working")
