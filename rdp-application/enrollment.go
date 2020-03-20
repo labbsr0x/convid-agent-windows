@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 	"strings"
 
 	"github.com/sirupsen/logrus"
@@ -59,14 +60,14 @@ func register(address string, machineID string) (result map[string]string, err e
 
 //estabelishSSHTunnel has the SSH logic with remote tunnel
 func estabelishSSHTunnel(sshHost string, sshPort string, sshUser string, sshPassword string, tunnelPort string) error {
-	// sshPortInt, err := strconv.Atoi(sshPort)
-	// if err != nil {
-	// 	return err
-	// }
-	// tunnelPortInt, err := strconv.Atoi(tunnelPort)
-	// if err != nil {
-	// 	return err
-	// }
-	// go connect(sshHost, sshPortInt, sshUser, sshPassword, "localhost", 3389, "localhost", tunnelPortInt)
+	sshPortInt, err := strconv.Atoi(sshPort)
+	if err != nil {
+		return err
+	}
+	tunnelPortInt, err := strconv.Atoi(tunnelPort)
+	if err != nil {
+		return err
+	}
+	go connect(sshHost, sshPortInt, sshUser, sshPassword, "localhost", 3389, "localhost", tunnelPortInt)
 	return nil
 }
