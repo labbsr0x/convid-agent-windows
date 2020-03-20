@@ -1,12 +1,12 @@
 {
-    "name": "Convid Remote Desktop Provider",
-    "description": "Convid Remote Desktop Provider",
+    "name": "Convid Remote Desktop Connector",
+    "description": "Convid Remote Desktop Connector",
     "author": {
         "name": "Tiago Stutz",
         "email": "tiagostutz@gmail.com"
     },
     "version": "0.1.0",
-    "binaryname": "convid-windows-agent",
+    "binaryname": "convid-rdp-client",
     "frontend": {
         "dir": "frontend",
         "install": "npm install",

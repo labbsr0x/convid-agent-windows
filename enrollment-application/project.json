@@ -1,12 +1,12 @@
 {
-    "name": "Convid Remote Desktop Provider",
-    "description": "Convid Remote Desktop Provider",
+    "name": "Convid Remote Desktop Gateway",
+    "description": "Convid Remote Desktop Gateway",
     "author": {
         "name": "Tiago Stutz",
         "email": "tiagostutz@gmail.com"
     },
     "version": "0.1.0",
-    "binaryname": "convid-windows-agent",
+    "binaryname": "convid-machine-provider",
     "frontend": {
         "dir": "frontend",
         "install": "npm install",
