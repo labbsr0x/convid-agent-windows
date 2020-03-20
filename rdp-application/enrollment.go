@@ -5,32 +5,31 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"strconv"
 	"strings"
 
 	"github.com/sirupsen/logrus"
 )
 
-func register(address string, account string) (result map[string]string, err error) {
+func register(address string, machineID string) (result map[string]string, err error) {
 
 	if address == "" {
 		err = fmt.Errorf("Address not informed")
 		return
 	}
 
-	if account == "" {
-		err = fmt.Errorf("Account not informed")
+	if machineID == "" {
+		err = fmt.Errorf("Machine ID not informed")
 		return
 	}
 
-	log.Printf("Initializing registration with address:%s account:%s\n", address, account)
+	log.Printf("Initializing registration with address:%s machineID:%s\n", address, machineID)
 
 	schematicAddress := address
 	if !strings.HasPrefix(address, "http://") {
 		schematicAddress = "http://" + address
 	}
-	generateMachineIDURL := fmt.Sprintf("%s/account/%s/machine", schematicAddress, account)
-	req, err := http.NewRequest("POST", generateMachineIDURL, nil)
+	generateMachineIDURL := fmt.Sprintf("%s/machine/%s", schematicAddress, machineID)
+	req, err := http.NewRequest("GET", generateMachineIDURL, nil)
 	if err != nil {
 		logrus.Errorf("Error preparing request: %s", err)
 		return
@@ -51,7 +50,7 @@ func register(address string, account string) (result map[string]string, err err
 
 	logrus.Infof("SSH Information received. Host: %s | Port: %s | User: %s | Password: %s | TunnelPort: %s", result["sshHost"], result["sshPort"], result["sshUsername"], result["sshPassword"], result["tunnelPort"])
 
-	agentInstance.SaveConfig(result["machineId"], result["sshHost"], result["sshPort"], result["sshUsername"], result["sshPassword"], result["tunnelPort"])
+	// agentInstance.SaveConfig(machineID, result["sshHost"], result["sshPort"], result["sshUsername"], result["sshPassword"], result["tunnelPort"])
 
 	err = estabelishSSHTunnel(result["sshHost"], result["sshPort"], result["sshUsername"], result["sshPassword"], result["tunnelPort"])
 	logrus.Infof("Connection estabilished to SSH server tunneling to port %s", result["tunnelPort"])
@@ -60,14 +59,14 @@ func register(address string, account string) (result map[string]string, err err
 
 //estabelishSSHTunnel has the SSH logic with remote tunnel
 func estabelishSSHTunnel(sshHost string, sshPort string, sshUser string, sshPassword string, tunnelPort string) error {
-	sshPortInt, err := strconv.Atoi(sshPort)
-	if err != nil {
-		return err
-	}
-	tunnelPortInt, err := strconv.Atoi(tunnelPort)
-	if err != nil {
-		return err
-	}
-	go serve(sshHost, sshPortInt, sshUser, sshPassword, "localhost", 3389, "localhost", tunnelPortInt)
+	// sshPortInt, err := strconv.Atoi(sshPort)
+	// if err != nil {
+	// 	return err
+	// }
+	// tunnelPortInt, err := strconv.Atoi(tunnelPort)
+	// if err != nil {
+	// 	return err
+	// }
+	// go connect(sshHost, sshPortInt, sshUser, sshPassword, "localhost", 3389, "localhost", tunnelPortInt)
 	return nil
 }

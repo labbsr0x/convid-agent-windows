@@ -20,21 +20,20 @@ function AppModel() {
 
   const [error, setError] = React.useState("")
   const [busy, setBusy] = React.useState(false)
-  const [machineId, setMachineId] = React.useState("")
+  const [machineInfo, setMachineInfo] = React.useState("")
 
-  const enroll = (address, accountId) => {
+  const enroll = (address, machineID) => {
     setBusy(true)
-    window.backend.doRegister(address, accountId).then(ret => {
+    window.backend.doRegister(address, machineID).then(ret => {
       if (!ret.error) {
-        setMachineId(ret.machineId)
+        setMachineInfo(ret)
         setError(false)
       } else {
-        setMachineId("")
-
+        setMachineInfo(null)
         if (ret["error"].indexOf("such host") !== -1 || ret["error"].indexOf("refused") !== -1) {
           setError("Unreachable host")
         } else if (ret["error"].indexOf("404") !== -1) {
-          setError(t("Company not found with ID") + " " + accountId)
+          setError(t("Machine not found with ID") + " " + machineID)
         } else {
           setError(ret["error"])
         }
@@ -45,7 +44,7 @@ function AppModel() {
   return {
     error, setError,
     busy,
-    machineId,
+    machineInfo,
     enroll
   }
 }
@@ -57,9 +56,11 @@ function App() {
   const {
     error, setError,
     busy,
-    machineId,
+    machineInfo,
     enroll
   } = AppModel()
+
+  const remoteMachineAddress = machineInfo ? "127.0.0.1:" + machineInfo.tunnelPort : ""
 
   return (
     <div id="app" className="App">
@@ -68,11 +69,11 @@ function App() {
       </div>
       {!busy && <>
         <div className="content-area">
-          {!machineId && !error && <EnrollmentForm enroll={enroll} />}
-          {machineId && <div className="machineid-area">
-            <div>{t("Machine successfully registered")}</div>
-            <h1>{machineId} <img src={copyIcon} alt="Copy" onClick={_ => copyTextToClipboard(machineId)} className="copy-button" title={t("Copy to clipboard")} /></h1>
-            <div>{t("Take a picture or write down a note of the above code because it will be requested when remotely accessing this machine")}</div>
+          {!machineInfo && !error && <EnrollmentForm enroll={enroll} />}
+          {machineInfo && <div className="machineid-area">
+            <div>{t("Successfully connected")}</div>
+            <h1>{remoteMachineAddress} <img src={copyIcon} alt="Copy" onClick={_ => copyTextToClipboard(remoteMachineAddress)} className="copy-button" title={t("Copy to clipboard")} /></h1>
+            <div>{t("Open your Remote Desktop Application and use the following address to connect")}: {remoteMachineAddress}</div>
           </div>}
           {error && <div className="machineid-area">
             <h1>{t("Error registering")}</h1>
@@ -83,7 +84,7 @@ function App() {
       </>}
       {busy && <>
         <div className="loading-area">
-          <h1>{t("Your machine is being registered")}...</h1>
+          <h1>{t("Connecting to RDP gateway")}...</h1>
           <img src={loadingIcon} alt="Loading" className="loadingIcon" />
         </div>
       </>}

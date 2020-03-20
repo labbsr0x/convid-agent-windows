@@ -1,0 +1,60 @@
+.App {
+  margin-top: 25px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 420px;
+  width: 420px;
+}
+
+.App .content-area,
+.App .loading-area {
+  width: 420px;
+}
+
+.App .logo{
+  width: 100px;
+}
+
+.App .button-area {
+  margin-top: 2rem;
+}
+
+.App .logoFooter {
+  width: 12px;
+  margin: 0 5px;
+}
+
+.App .heartIcon {
+  width: 12px;
+  margin: 0 5px;
+}
+
+.App .loadingIcon {
+  width: 50px
+}
+
+.App h1,
+.App .machineid-area {
+  width: 400px;
+}
+.App .machineid-area h1 {
+  background: #F4F4F4;
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;  
+}
+
+.App .copy-button {
+  opacity: .7;
+  height: 40px;
+  margin-left: 5px;
+  cursor: pointer;
+}
+.App .copy-button:hover {
+  opacity: 1;
+}

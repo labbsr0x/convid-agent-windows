@@ -1,0 +1,21 @@
+{
+	"translation": {
+		"Account E-mail": "Account E-mail",
+		"Company not found with ID": "Company not found with ID",
+		"Connect to remote computer": "Connect to remote computer",
+		"Connecting to RDP gateway": "Connecting to RDP gateway",
+		"Copy to clipboard": "Copy to clipboard",
+		"Error registering": "Error registering",
+		"Machine successfully registered": "Machine successfully registered",
+		"Open your Remote Desktop Application and use the following address to connect": "Open your Remote Desktop Application and use the following address to connect",
+		"Organization Login": "Organization Login",
+		"Register this machine": "Register this machine",
+		"Server Address": "Server Address",
+		"Successfully connected": "Successfully connected. Enjoy!",
+		"Take a picture or write down a note of the above code because it will be requested when remotely accessing this machine": "Take a picture or write down a note of the above code because it will be requested when remotely accessing this machine",
+		"Try again": "Try again",
+		"Unreachable host": "Unreachable host",
+		"Remote Machine Code": "Remote Machine Code",
+		"Your machine is being registered": "Your machine is being registered"
+	}
+}
