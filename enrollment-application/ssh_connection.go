@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/jairsjunior/go-ssh-client-tunnel/client"
+	client "github.com/jairsjunior/go-ssh-client-tunnel/clientv2"
 	"github.com/sirupsen/logrus"
 )
 
@@ -21,5 +21,9 @@ func serve(sshServerHost string, sshServerPort int, user string, password string
 	logrus.Infof("Connecting to remote server: SSHServerHost: %s | SSHServerPort: %d | user: %s | password: %s", sshServerHost, sshServerPort, user, password)
 	logrus.Infof("Local routing to: Host: %s | Port: %d", localRDPHost, localRDPPort)
 	logrus.Infof("Tunneling to: Host: %s | Port: %d", tunneltoHost, tunneltoPort)
-	client.CreateConnectionRemote(user, password, localRDPEndpoint, tunneltoEndpoint, sshServerEndpoint)
+
+	err := client.CreateConnectionRemoteV2(user, password, localRDPEndpoint, tunneltoEndpoint, sshServerEndpoint)
+	if err == nil {
+		logrus.Errorf("Error at create connection: ", err)
+	}
 }
