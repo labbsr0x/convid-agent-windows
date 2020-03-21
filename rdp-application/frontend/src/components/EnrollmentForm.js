@@ -48,7 +48,7 @@ function EnrollmentForm({ enroll }) {
                     <TextField style={{ width: "300px" }} defaultValue={serverAddress} label={t("Server Address")} onChange={e => setServerAddress(e.target.value)} variant="standard" />
                 </div>
                 <div>
-                    <TextField style={{ width: "300px" }} defaultValue={machineID} type="text" onChange={e => setMachineID(e.target.value)} label={t("Remote Machine Code")} variant="standard" />
+                    <TextField style={{ width: "300px" }} defaultValue={machineID} type="text" onChange={e => setMachineID(e.target.value.trim())} label={t("Remote Machine Code")} variant="standard" />
                 </div>
                 <div className="button-area">
                     <Button variant="outlined" disabled={!submitEnabled} onClick={_ => onEnroll()}>{t("Connect to remote computer")}</Button>

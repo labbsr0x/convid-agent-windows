@@ -26,7 +26,7 @@ func register(address string, machineID string) (result map[string]string, err e
 	log.Printf("Initializing registration with address:%s machineID:%s\n", address, machineID)
 
 	schematicAddress := address
-	if !strings.HasPrefix(address, "http://") {
+	if !strings.HasPrefix(address, "http://") && !strings.HasPrefix(address, "https://") {
 		schematicAddress = "http://" + address
 	}
 	generateMachineIDURL := fmt.Sprintf("%s/machine/%s", schematicAddress, machineID)
@@ -43,10 +43,19 @@ func register(address string, machineID string) (result map[string]string, err e
 		logrus.Errorf("Error requesting: %s", err)
 		return
 	}
-	json.NewDecoder(response.Body).Decode(&result)
+	var resp map[string]interface{}
+	json.NewDecoder(response.Body).Decode(&resp)
 	if response.StatusCode != 200 {
 		err = fmt.Errorf("Error requesting: %d", response.StatusCode)
 		return
+	}
+
+	result = map[string]string{
+		"sshHost":     fmt.Sprintf("%s", resp["sshHost"]),
+		"sshPort":     fmt.Sprintf("%s", resp["sshPort"]),
+		"sshUsername": fmt.Sprintf("%s", resp["sshUsername"]),
+		"sshPassword": fmt.Sprintf("%s", resp["sshPassword"]),
+		"tunnelPort":  fmt.Sprintf("%s", resp["tunnelPort"]),
 	}
 
 	logrus.Infof("SSH Information received. Host: %s | Port: %s | User: %s | Password: %s | TunnelPort: %s", result["sshHost"], result["sshPort"], result["sshUsername"], result["sshPassword"], result["tunnelPort"])

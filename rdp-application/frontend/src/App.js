@@ -21,6 +21,7 @@ function AppModel() {
   const [error, setError] = React.useState("")
   const [busy, setBusy] = React.useState(false)
   const [machineInfo, setMachineInfo] = React.useState("")
+  const [localPort] = React.useState("3389")
 
   const enroll = (address, machineID) => {
     setBusy(true)
@@ -45,6 +46,7 @@ function AppModel() {
     error, setError,
     busy,
     machineInfo,
+    localPort,
     enroll
   }
 }
@@ -57,10 +59,11 @@ function App() {
     error, setError,
     busy,
     machineInfo,
+    localPort,
     enroll
   } = AppModel()
 
-  const remoteMachineAddress = machineInfo ? "127.0.0.1:" + machineInfo.tunnelPort : ""
+  const remoteMachineAddress = machineInfo ? "127.0.0.1:" + localPort : ""
 
   return (
     <div id="app" className="App">
