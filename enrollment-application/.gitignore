@@ -2,3 +2,4 @@ convid-windows-agent*
 convid-machine-provider
 *.exe*
 enrollment-application*
+Convid Remote Desktop Gateway.app
