@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { copyTextToClipboard } from "./helpers";
 
 import logo from './logo.png';
-import logoBB from './logo-bb.png';
+import logoLabbs from './logo-labbs.png';
 import iconHeart from './iconHeart.png';
 import loadingIcon from './loading.gif'
 import copyIcon from './copy.png';
@@ -88,7 +88,7 @@ function App() {
         </div>
       </>}
       <footer>
-        {t("Handcrafted with")} <img src={iconHeart} alt="Love" className="heartIcon" /> by <img src={logoBB} alt="Banco do Brasil" className="logoFooter" />
+        {t("Handcrafted with")} <img src={iconHeart} alt="Love" className="heartIcon" /> by <img src={logoLabbs} alt="Labbs" className="logoFooter" />
       </footer>
     </div>
   );
