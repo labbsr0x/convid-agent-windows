@@ -9,15 +9,17 @@ import { useTranslation } from 'react-i18next';
 // babel issues that I couldn't fix (Tiago Stutz)
 function EnrollmentFormModel() {
 
+    const [sealed] = React.useState(process.env.REACT_APP_SEALED)
     const [submitEnabled, setSubmitEnabled] = React.useState(false)
-    const [serverAddress, setServerAddress] = React.useState("")
-    const [accountId, setAccountId] = React.useState("")
+    const [serverAddress, setServerAddress] = React.useState(process.env.REACT_APP_SERVER_ADDRESS)
+    const [accountId, setAccountId] = React.useState(process.env.REACT_APP_ACCOUNT_ID)
 
     useEffect(_ => {
         setSubmitEnabled(serverAddress && accountId)
     }, [serverAddress, accountId])
 
     return {
+        sealed,
         submitEnabled,
         serverAddress, setServerAddress,
         accountId, setAccountId,
@@ -29,6 +31,7 @@ function EnrollmentForm({ enroll }) {
     const { t } = useTranslation();
 
     const {
+        sealed,
         submitEnabled,
         serverAddress, setServerAddress,
         accountId, setAccountId
@@ -45,10 +48,13 @@ function EnrollmentForm({ enroll }) {
 
             <div name="form">
                 <div>
-                    <TextField defaultValue={serverAddress} label={t("Server Address")} onChange={e => setServerAddress(e.target.value)} variant="standard" />
+                    {!sealed && <TextField style={{ width: "300px" }} defaultValue={serverAddress} label={t("Server Address")} onChange={e => setServerAddress(e.target.value)} variant="standard" />}
                 </div>
                 <div>
-                    <TextField defaultValue={accountId} type="text" onChange={e => setAccountId(e.target.value)} label={t("Organization Login")} variant="standard" />
+                    {!sealed && <TextField style={{ width: "300px" }} defaultValue={accountId} type="text" onChange={e => setAccountId(e.target.value)} label={t("Organization Login")} variant="standard" />}
+                </div>
+                <div>
+                    {sealed && <h3 style={{ width: "300px" }} >{t("Click the button below to enable it to be remotely accesed")}</h3>}
                 </div>
                 <div className="button-area">
                     <Button variant="outlined" disabled={!submitEnabled} onClick={_ => onEnroll()}>{t("Register this machine")}</Button>

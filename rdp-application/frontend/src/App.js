@@ -21,7 +21,7 @@ function AppModel() {
   const [error, setError] = React.useState("")
   const [busy, setBusy] = React.useState(false)
   const [machineInfo, setMachineInfo] = React.useState("")
-  const [localPort] = React.useState("3389")
+  const [localPort] = React.useState(process.env.REACT_APP_LOCAL_PORT ? process.env.REACT_APP_LOCAL_PORT : "3389")
 
   const enroll = (address, machineID) => {
     setBusy(true)
@@ -72,6 +72,7 @@ function App() {
       </div>
       {!busy && <>
         <div className="content-area">
+          {localPort}
           {!machineInfo && !error && <EnrollmentForm enroll={enroll} />}
           {machineInfo && <div className="machineid-area">
             <div>{t("Successfully connected")}</div>

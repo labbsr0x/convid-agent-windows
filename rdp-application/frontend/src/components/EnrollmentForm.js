@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 function EnrollmentFormModel() {
 
     const [submitEnabled, setSubmitEnabled] = React.useState(false)
-    const [serverAddress, setServerAddress] = React.useState("")
+    const [serverAddress, setServerAddress] = React.useState(process.env.REACT_APP_SERVER_ADDRESS)
     const [machineID, setMachineID] = React.useState("")
 
     useEffect(_ => {

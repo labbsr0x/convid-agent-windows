@@ -8,8 +8,9 @@
 		"Register this machine": "Habilitar essa máquina",
 		"Server Address": "Endereço do Servidor",
 		"Try again": "Tentar novamente",
+		"Click the button below to enable it to be remotely accesed": "Clique no botão abaixo para tornar essa máquina acessível de casa",
 		"Company not found with ID": "Empresa não encontrada para o CNPJ",
-		"Take a picture or write down a note of the above code because it will be requested when remotely accessing this machine": "Tire uma foto ou anote o código acima pois ele será solicitado na realização da conexão remota a essa máquina",
+		"Take a picture or write down a note of the above code because it will be requested when remotely accessing this machine": "Tire uma foto ou anote o código acima pois ele será usado na conexão remota a essa máquina",
 		"Unreachable host": "Endereço não encontrado",
 		"Your machine is being registered": "Sua máquina está sendo habilitada"
 	}
