@@ -54,7 +54,7 @@ function EnrollmentForm({ enroll }) {
                     {!sealed && <TextField style={{ width: "300px" }} defaultValue={accountId} type="text" onChange={e => setAccountId(e.target.value)} label={t("Organization Login")} variant="standard" />}
                 </div>
                 <div>
-                    {sealed && <h3 style={{ width: "300px" }} >{t("Click the button below to enable it to be remotely accesed")}</h3>}
+                    {sealed && <h3 style={{ width: "330px" }} >{t("Click the button below to enable it to be remotely accesed")}</h3>}
                 </div>
                 <div className="button-area">
                     <Button variant="outlined" disabled={!submitEnabled} onClick={_ => onEnroll()}>{t("Register this machine")}</Button>
