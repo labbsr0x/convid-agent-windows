@@ -72,7 +72,6 @@ function App() {
       </div>
       {!busy && <>
         <div className="content-area">
-          {localPort}
           {!machineInfo && !error && <EnrollmentForm enroll={enroll} />}
           {machineInfo && <div className="machineid-area">
             <div>{t("Successfully connected")}</div>

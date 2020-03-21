@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 // babel issues that I couldn't fix (Tiago Stutz)
 function EnrollmentFormModel() {
 
+    const [sealed] = React.useState(process.env.REACT_APP_SEALED)
     const [submitEnabled, setSubmitEnabled] = React.useState(false)
     const [serverAddress, setServerAddress] = React.useState(process.env.REACT_APP_SERVER_ADDRESS)
     const [machineID, setMachineID] = React.useState("")
@@ -18,6 +19,7 @@ function EnrollmentFormModel() {
     }, [serverAddress, machineID])
 
     return {
+        sealed,
         submitEnabled,
         serverAddress, setServerAddress,
         machineID, setMachineID,
@@ -29,6 +31,7 @@ function EnrollmentForm({ enroll }) {
     const { t } = useTranslation();
 
     const {
+        sealed,
         submitEnabled,
         serverAddress, setServerAddress,
         machineID, setMachineID
@@ -45,7 +48,7 @@ function EnrollmentForm({ enroll }) {
 
             <div name="form">
                 <div>
-                    <TextField style={{ width: "300px" }} defaultValue={serverAddress} label={t("Server Address")} onChange={e => setServerAddress(e.target.value)} variant="standard" />
+                    {!sealed && <TextField style={{ width: "300px" }} defaultValue={serverAddress} label={t("Server Address")} onChange={e => setServerAddress(e.target.value)} variant="standard" />}
                 </div>
                 <div>
                     <TextField style={{ width: "300px" }} defaultValue={machineID} type="text" onChange={e => setMachineID(e.target.value.trim())} label={t("Remote Machine Code")} variant="standard" />

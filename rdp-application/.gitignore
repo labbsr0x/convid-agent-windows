@@ -2,3 +2,4 @@ convid-windows-agent*
 convid-rdp-client
 *.exe*
 enrollment-application*
+Convid Remote Desktop Connector.app

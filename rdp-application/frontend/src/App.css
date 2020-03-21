@@ -12,8 +12,11 @@
 .App .content-area,
 .App .loading-area {
   width: 420px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
-
 .App .logo{
   width: 100px;
 }
