@@ -22,7 +22,7 @@ function AppModel() {
   const [busy, setBusy] = React.useState(false)
   const [machineInfo, setMachineInfo] = React.useState("")
   const [connected, setConnected] = React.useState(false)
-  const [localPort] = React.useState(process.env.REACT_APP_LOCAL_PORT ? process.env.REACT_APP_LOCAL_PORT : "3389")
+  const [localPort] = React.useState(process.env.REACT_APP_LOCAL_PORT ? process.env.REACT_APP_LOCAL_PORT : "13389")
 
   window.wails.Events.On("ConnectionSucceed", _ => {
     setConnected(true)

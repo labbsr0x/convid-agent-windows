@@ -92,6 +92,6 @@ func estabelishSSHTunnel(sshHost string, sshPort string, sshUser string, sshPass
 	if err != nil {
 		return err
 	}
-	go connect(sshHost, sshPortInt, sshUser, sshPassword, "localhost", 3389, "localhost", tunnelPortInt)
+	go connect(sshHost, sshPortInt, sshUser, sshPassword, "localhost", 13389, "localhost", tunnelPortInt)
 	return nil
 }
