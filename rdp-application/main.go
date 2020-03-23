@@ -24,7 +24,7 @@ func main() {
 	agentInstance, err = NewAgent()
 
 	if err != nil {
-		runtime.NewLog().New("Agent").Fatal("Could not initialize agent")
+		runtime.NewLog().New("Agent").Warn("Could not initialize agent")
 		return
 	}
 
