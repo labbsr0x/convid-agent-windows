@@ -3,7 +3,7 @@ module github.com/labbsr0x/convid-windows-agent/enrollment-application
 require (
 	github.com/fsnotify/fsnotify v1.4.7
 	github.com/go-resty/resty/v2 v2.2.0 // indirect
-	github.com/jairsjunior/go-ssh-client-tunnel v0.0.3-0.20200323172644-ae4dcfe6abfe
+	github.com/jairsjunior/go-ssh-client-tunnel v0.0.3
 	github.com/leaanthony/mewn v0.10.7
 	github.com/prometheus/tsdb v0.7.1 // indirect
 	github.com/sirupsen/logrus v1.4.2
