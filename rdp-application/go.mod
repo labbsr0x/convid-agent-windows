@@ -1,5 +1,7 @@
 module github.com/labbsr0x/convid-windows-agent/rdp-application
 
+go 1.14
+
 require (
 	github.com/fsnotify/fsnotify v1.4.7
 	github.com/go-resty/resty/v2 v2.2.0 // indirect

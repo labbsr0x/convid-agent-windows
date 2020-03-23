@@ -24,6 +24,9 @@ function AppModel() {
   const [connected, setConnected] = React.useState(false)
   const [localPort] = React.useState(process.env.REACT_APP_LOCAL_PORT ? process.env.REACT_APP_LOCAL_PORT : "13389")
 
+  const [address, setAddress] = React.useState("initial:123")
+  const [machineID, setMachineID] = React.useState("initial")
+
   window.wails.Events.On("ConnectionSucceed", _ => {
     setConnected(true)
   })
@@ -32,7 +35,14 @@ function AppModel() {
     setBusy(false)
     setError("Timeout connecting to remote")
   })
-
+  
+  React.useEffect(() => {
+    window.backend.doLoadConfig().then((ret) => {
+      console.log(ret)
+      setAddress(ret.address)
+      setMachineID(ret.machineID)
+    })
+  }, []);
 
   const enroll = (address, machineID) => {
     setBusy(true)
@@ -60,6 +70,8 @@ function AppModel() {
     machineInfo,
     localPort,
     connected,
+    address,
+    machineID,
     enroll
   }
 }
@@ -74,7 +86,9 @@ function App() {
     machineInfo,
     localPort,
     connected,
-    enroll
+    enroll,
+    address,
+    machineID,
   } = AppModel()
 
   const remoteMachineAddress = machineInfo ? "127.0.0.1:" + localPort : ""
@@ -86,7 +100,7 @@ function App() {
       </div>
       {!busy && <>
         <div className="content-area">
-          {!machineInfo && !error && <EnrollmentForm enroll={enroll} />}
+          {!machineInfo && !error && <EnrollmentForm enroll={enroll} defaultAddress={address} defaultMachineID={machineID} />}
           {machineInfo && !connected && <div className="loading-area">
             <h1>{t("Connecting to RDP gateway")}...</h1>
             <img src={loadingIcon} alt="Loading" className="loadingIcon" />

@@ -25,6 +25,8 @@ func register(address string, machineID string) (result map[string]string, err e
 		return
 	}
 
+	agentInstance.SaveConfig(address, machineID)
+
 	log.Printf("Initializing registration with address:%s machineID:%s\n", address, machineID)
 
 	schematicAddress := address
@@ -64,14 +66,13 @@ func register(address string, machineID string) (result map[string]string, err e
 
 	logrus.Infof("SSH Information received. Host: %s | Port: %s | User: %s | Password: %s | TunnelPort: %s", result["sshHost"], result["sshPort"], result["sshUsername"], result["sshPassword"], result["tunnelPort"])
 
-	// agentInstance.SaveConfig(machineID, result["sshHost"], result["sshPort"], result["sshUsername"], result["sshPassword"], result["tunnelPort"])
-
 	err = estabelishSSHTunnel(result["sshHost"], result["sshPort"], result["sshUsername"], result["sshPassword"], result["tunnelPort"])
 	if err != nil {
 		logrus.Errorf("Error estabilishing tunnel. Details: %s", err)
 	}
 
 	agentInstance.runtime.Events.On("ConnectionSucceed", func(optionalData ...interface{}) {
+
 		logrus.Infof("Connection estabilished to SSH server tunneling to port %s", result["tunnelPort"])
 		if runtime.GOOS == "windows" { // invoke mstsc
 			c := exec.Command("mstsc", "/v:127.0.0.1:3389")
