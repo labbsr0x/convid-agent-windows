@@ -29,6 +29,8 @@ function AppModel() {
   })
   window.wails.Events.On("ConnectionError", _ => {
     setConnected(false)
+    setBusy(false)
+    setError("Timeout connecting to remote")
   })
 
 
@@ -94,6 +96,7 @@ function App() {
             <h1>{remoteMachineAddress} <img src={copyIcon} alt="Copy" onClick={_ => copyTextToClipboard(remoteMachineAddress)} className="copy-button" title={t("Copy to clipboard")} /></h1>
             <div>{t("Open your Remote Desktop Application and use the following address to connect")}: {remoteMachineAddress}</div>
           </div>}
+
           {error && <div className="machineid-area">
             <h1>{t("Error registering")}</h1>
             <div>{t(error)}</div>
@@ -106,6 +109,13 @@ function App() {
           <h1>{t("Getting Account Information")}...</h1>
           <img src={loadingIcon} alt="Loading" className="loadingIcon" />
         </div>
+
+        {error && !connected && <div className="loading-area">
+            <h1>{t("Timeout connecting to remote desktop")}</h1>
+            <div>{t(error)}</div>
+            <div style={{ marginTop: "1rem" }}><Button onClick={_ => setError(false)} variant="outlined">{t("Try again")}</Button></div>
+          </div>}
+
       </>}
       <footer>
         {t("Handcrafted with")} <img src={iconHeart} alt="Love" className="heartIcon" /> by <img src={logoLabbs} alt="Labbs" className="logoFooter" />
