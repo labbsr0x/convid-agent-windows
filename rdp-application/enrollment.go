@@ -54,7 +54,8 @@ func register(address string, machineID string) (result map[string]string, err e
 	}
 
 	result = map[string]string{
-		"sshHost":     fmt.Sprintf("%s", resp["sshHost"]),
+		"sshHost": fmt.Sprintf("%s", resp["sshHost"]),
+		// "sshHost":     fmt.Sprintf("%s", "tunnel-convid.sandman.erro"),
 		"sshPort":     fmt.Sprintf("%s", resp["sshPort"]),
 		"sshUsername": fmt.Sprintf("%s", resp["sshUsername"]),
 		"sshPassword": fmt.Sprintf("%s", resp["sshPassword"]),

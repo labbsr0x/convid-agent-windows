@@ -25,17 +25,32 @@ func connect(sshServerHost string, sshServerPort int, user string, password stri
 	logrus.Infof("Local routing to: Host: %s | Port: %d", localRDPHost, localRDPPort)
 	logrus.Infof("Tunneling to: Host: %s | Port: %d", tunneltoHost, tunneltoPort)
 
-	agentInstance.runtime.Events.Emit("ConnectionSucceed")
+	isConnected := make(chan bool)
+	at := 0
+
 	for {
-		err := client.CreateConnectionLocalV2(user, password, localRDPEndpoint, tunneltoEndpoint, sshServerEndpoint)
-		logrus.Infof("===>>>> CONNECTD: %s", err)
-		if err != nil {
-			agentInstance.runtime.Events.Emit("ConnectionError")
-			r := rand.Intn(10)
-			time.Sleep(time.Duration(r) * time.Microsecond)
-			logrus.Warningf("Error connecting to SSH... retrying in %d seconds.", r)
-			continue
+		go client.CreateConnectionLocalV2(user, password, localRDPEndpoint, tunneltoEndpoint, sshServerEndpoint, isConnected)
+
+		v := <-isConnected
+
+		if !v {
+
+			if at < 2 {
+				r := rand.Intn(10)
+				time.Sleep(time.Duration(r) * time.Second)
+				logrus.Warningf("Error connecting to SSH... retrying in %d seconds.", r)
+				at++
+				continue
+			} else {
+				agentInstance.runtime.Events.Emit("ConnectionError")
+				break
+			}
+
+		} else {
+			agentInstance.runtime.Events.Emit("ConnectionSucceed")
+			logrus.Infof("===>>>> CONNECTED")
+			break
 		}
-		break
+
 	}
 }
