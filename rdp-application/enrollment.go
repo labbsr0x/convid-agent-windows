@@ -74,7 +74,7 @@ func register(address string, machineID string) (result map[string]string, err e
 	agentInstance.runtime.Events.On("ConnectionSucceed", func(optionalData ...interface{}) {
 		logrus.Infof("Connection estabilished to SSH server tunneling to port %s", result["tunnelPort"])
 		if runtime.GOOS == "windows" { // invoke mstsc
-			c := exec.Command("mstsc", "/v:127.0.0.1:3389")
+			c := exec.Command("mstsc", "/v:127.0.0.1:43389")
 			if err := c.Run(); err != nil {
 				logrus.Infof("Error callinsg MSTSC: ", err)
 			}
@@ -93,6 +93,6 @@ func estabelishSSHTunnel(sshHost string, sshPort string, sshUser string, sshPass
 	if err != nil {
 		return err
 	}
-	go connect(sshHost, sshPortInt, sshUser, sshPassword, "localhost", 13389, "localhost", tunnelPortInt)
+	go connect(sshHost, sshPortInt, sshUser, sshPassword, "localhost", 43389, "localhost", tunnelPortInt)
 	return nil
 }
