@@ -24,8 +24,8 @@ function AppModel() {
   const [connected, setConnected] = React.useState(false)
   const [localPort] = React.useState(process.env.REACT_APP_LOCAL_PORT ? process.env.REACT_APP_LOCAL_PORT : "13389")
 
-  const [address, setAddress] = React.useState("initial:123")
-  const [machineID, setMachineID] = React.useState("initial")
+  const [address, setAddress] = React.useState("")
+  const [machineID, setMachineID] = React.useState("")
 
   window.wails.Events.On("ConnectionSucceed", _ => {
     setConnected(true)
@@ -37,11 +37,16 @@ function AppModel() {
   })
   
   React.useEffect(() => {
+    setBusy(true)
     window.backend.doLoadConfig().then((ret) => {
-      console.log(ret)
-      setAddress(ret.address)
-      setMachineID(ret.machineID)
-    })
+      if (!ret.error) {
+        setAddress(ret.address)
+        setMachineID(ret.machineID)
+      } else {
+        setError(ret.error)
+      }
+      setBusy(false)
+    }).catch(setError)
   }, []);
 
   const enroll = (address, machineID) => {
@@ -62,7 +67,7 @@ function AppModel() {
         }
       }
       setBusy(false)
-    });
+    }).catch(setError);
   }
   return {
     error, setError,
