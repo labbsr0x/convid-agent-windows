@@ -29,7 +29,8 @@ func register(address string, machineID string) (result map[string]string, err e
 	if !strings.HasPrefix(address, "http://") && !strings.HasPrefix(address, "https://") {
 		schematicAddress = "http://" + address
 	}
-	generateMachineIDURL := fmt.Sprintf("%s/machine/%s", schematicAddress, machineID)
+	generateMachineIDURL := fmt.Sprintf("%s/machine/%s", schematicAddress, strings.TrimSpace(machineID))
+	logrus.Debugf("Requesting account info to %s", generateMachineIDURL)
 	req, err := http.NewRequest("GET", generateMachineIDURL, nil)
 	if err != nil {
 		logrus.Errorf("Error preparing request: %s", err)
@@ -63,7 +64,13 @@ func register(address string, machineID string) (result map[string]string, err e
 	// agentInstance.SaveConfig(machineID, result["sshHost"], result["sshPort"], result["sshUsername"], result["sshPassword"], result["tunnelPort"])
 
 	err = estabelishSSHTunnel(result["sshHost"], result["sshPort"], result["sshUsername"], result["sshPassword"], result["tunnelPort"])
-	logrus.Infof("Connection estabilished to SSH server tunneling to port %s", result["tunnelPort"])
+	if err != nil {
+
+	}
+
+	agentInstance.runtime.Events.On("ConnectionSucceed", func(optionalData ...interface{}) {
+		logrus.Infof("Connection estabilished to SSH server tunneling to port %s", result["tunnelPort"])
+	})
 	return
 }
 

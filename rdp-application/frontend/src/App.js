@@ -21,10 +21,20 @@ function AppModel() {
   const [error, setError] = React.useState("")
   const [busy, setBusy] = React.useState(false)
   const [machineInfo, setMachineInfo] = React.useState("")
+  const [connected, setConnected] = React.useState(false)
   const [localPort] = React.useState(process.env.REACT_APP_LOCAL_PORT ? process.env.REACT_APP_LOCAL_PORT : "3389")
+
+  window.wails.Events.On("ConnectionSucceed", _ => {
+    setConnected(true)
+  })
+  window.wails.Events.On("ConnectionError", _ => {
+    setConnected(false)
+  })
+
 
   const enroll = (address, machineID) => {
     setBusy(true)
+
     window.backend.doRegister(address, machineID).then(ret => {
       if (!ret.error) {
         setMachineInfo(ret)
@@ -47,6 +57,7 @@ function AppModel() {
     busy,
     machineInfo,
     localPort,
+    connected,
     enroll
   }
 }
@@ -60,6 +71,7 @@ function App() {
     busy,
     machineInfo,
     localPort,
+    connected,
     enroll
   } = AppModel()
 
@@ -73,7 +85,11 @@ function App() {
       {!busy && <>
         <div className="content-area">
           {!machineInfo && !error && <EnrollmentForm enroll={enroll} />}
-          {machineInfo && <div className="machineid-area">
+          {machineInfo && !connected && <div className="loading-area">
+            <h1>{t("Connecting to RDP gateway")}...</h1>
+            <img src={loadingIcon} alt="Loading" className="loadingIcon" />
+          </div>}
+          {machineInfo && connected && <div className="machineid-area">
             <div>{t("Successfully connected")}</div>
             <h1>{remoteMachineAddress} <img src={copyIcon} alt="Copy" onClick={_ => copyTextToClipboard(remoteMachineAddress)} className="copy-button" title={t("Copy to clipboard")} /></h1>
             <div>{t("Open your Remote Desktop Application and use the following address to connect")}: {remoteMachineAddress}</div>
@@ -87,7 +103,7 @@ function App() {
       </>}
       {busy && <>
         <div className="loading-area">
-          <h1>{t("Connecting to RDP gateway")}...</h1>
+          <h1>{t("Getting Account Information")}...</h1>
           <img src={loadingIcon} alt="Loading" className="loadingIcon" />
         </div>
       </>}

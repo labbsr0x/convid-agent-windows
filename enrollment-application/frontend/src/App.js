@@ -24,6 +24,9 @@ function AppModel() {
 
   const enroll = (address, accountId) => {
     setBusy(true)
+    window.wails.on("ConnectionSucceed", _ => {
+      console.log("===>>>> RETRUINGGG!!!!!");
+    })
     window.backend.doRegister(address, accountId).then(ret => {
       if (!ret.error) {
         setMachineId(ret.machineId)
