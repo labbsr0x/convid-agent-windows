@@ -22,7 +22,7 @@ function AppModel() {
   const [busy, setBusy] = React.useState(false)
   const [machineInfo, setMachineInfo] = React.useState("")
   const [connected, setConnected] = React.useState(false)
-  const [localPort] = React.useState(process.env.REACT_APP_LOCAL_PORT ? process.env.REACT_APP_LOCAL_PORT : "13389")
+  const [localPort] = React.useState(process.env.REACT_APP_LOCAL_PORT ? process.env.REACT_APP_LOCAL_PORT : "43389")
 
   const [address, setAddress] = React.useState("")
   const [machineID, setMachineID] = React.useState("")
@@ -130,10 +130,10 @@ function App() {
         </div>
 
         {error && !connected && <div className="loading-area">
-            <h1>{t("Timeout connecting to remote desktop")}</h1>
-            <div>{t(error)}</div>
-            <div style={{ marginTop: "1rem" }}><Button onClick={_ => setError(false)} variant="outlined">{t("Try again")}</Button></div>
-          </div>}
+          <h1>{t("Timeout connecting to remote desktop")}</h1>
+          <div>{t(error)}</div>
+          <div style={{ marginTop: "1rem" }}><Button onClick={_ => setError(false)} variant="outlined">{t("Try again")}</Button></div>
+        </div>}
 
       </>}
       <footer>

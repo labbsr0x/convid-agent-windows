@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 	"strconv"
 	"strings"
@@ -23,7 +22,7 @@ func register(address string, account string) (result map[string]string, err err
 		return
 	}
 
-	log.Printf("Initializing registration with address:%s account:%s\n", address, account)
+	logrus.Infof("Initializing registration with address:%s account:%s\n", address, account)
 
 	schematicAddress := address
 	if !strings.HasPrefix(address, "https://") {
