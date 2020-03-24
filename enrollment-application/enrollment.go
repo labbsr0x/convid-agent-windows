@@ -22,6 +22,8 @@ func register(address string, account string) (result map[string]string, err err
 		return
 	}
 
+	agentInstance.SaveConfig(address, account)
+
 	logrus.Infof("Initializing registration with address:%s account:%s\n", address, account)
 
 	schematicAddress := address
@@ -49,8 +51,6 @@ func register(address string, account string) (result map[string]string, err err
 	}
 
 	logrus.Infof("SSH Information received. Host: %s | Port: %s | User: %s | Password: %s | TunnelPort: %s", result["sshHost"], result["sshPort"], result["machineId"], account, result["tunnelPort"])
-
-	agentInstance.SaveConfig(result["machineId"], result["sshHost"], result["sshPort"], result["machineId"], account, result["tunnelPort"])
 
 	err = estabelishSSHTunnel(result["sshHost"], result["sshPort"], result["machineId"], account, result["tunnelPort"])
 	logrus.Infof("Connection estabilished to SSH server tunneling to port %s", result["tunnelPort"])

@@ -24,6 +24,9 @@ function AppModel() {
   const [connected, setConnected] = React.useState(false)
   const [localPort] = React.useState(process.env.REACT_APP_LOCAL_PORT ? process.env.REACT_APP_LOCAL_PORT : "43389")
 
+  const [address, setAddress] = React.useState("")
+  const [machineID, setMachineID] = React.useState("")
+
   window.wails.Events.On("ConnectionSucceed", _ => {
     setConnected(true)
   })
@@ -32,11 +35,24 @@ function AppModel() {
     setBusy(false)
     setError("Timeout connecting to remote")
   })
-
+  
+  React.useEffect(() => {
+    setBusy(true)
+    window.backend.doLoadConfig().then((ret) => {
+      if (!ret.error) {
+        setAddress(ret.address)
+        setMachineID(ret.machineID)
+      } else {
+        setError(ret.error)
+      }
+      setBusy(false)
+    }).catch(setError)
+  }, []);
 
   const enroll = (address, machineID) => {
     setBusy(true)
-
+    setAddress(address)
+    setMachineID(machineID)
     window.backend.doRegister(address, machineID).then(ret => {
       if (!ret.error) {
         setMachineInfo(ret)
@@ -52,7 +68,7 @@ function AppModel() {
         }
       }
       setBusy(false)
-    });
+    })
   }
   return {
     error, setError,
@@ -60,6 +76,8 @@ function AppModel() {
     machineInfo,
     localPort,
     connected,
+    address,
+    machineID,
     enroll
   }
 }
@@ -74,7 +92,9 @@ function App() {
     machineInfo,
     localPort,
     connected,
-    enroll
+    enroll,
+    address,
+    machineID,
   } = AppModel()
 
   const remoteMachineAddress = machineInfo ? "127.0.0.1:" + localPort : ""
@@ -86,7 +106,7 @@ function App() {
       </div>
       {!busy && <>
         <div className="content-area">
-          {!machineInfo && !error && <EnrollmentForm enroll={enroll} />}
+          {!machineInfo && !error && <EnrollmentForm enroll={enroll} defaultAddress={address} defaultMachineID={machineID} />}
           {machineInfo && !connected && <div className="loading-area">
             <h1>{t("Connecting to RDP gateway")}...</h1>
             <img src={loadingIcon} alt="Loading" className="loadingIcon" />

@@ -8,6 +8,19 @@ import (
 
 var agentInstance *Agent
 
+func doLoadConfig() map[string]string {
+	err := agentInstance.LoadConfig()
+	if err != nil {
+		return map[string]string{
+			"error": err.Error(),
+		}
+	}
+	return map[string]string{
+		"address":   agentInstance.config.Address,
+		"accountID": agentInstance.config.AccountID,
+	}
+}
+
 func doRegister(address string, accountID string) map[string]string {
 	ret, err := register(address, accountID)
 	if err != nil {
@@ -39,6 +52,7 @@ func main() {
 		CSS:    css,
 	})
 	app.Bind(agentInstance)
+	app.Bind(doLoadConfig)
 	app.Bind(doRegister)
 	app.Run()
 }

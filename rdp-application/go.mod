@@ -1,4 +1,4 @@
-module github.com/labbsr0x/convid-windows-agent/enrollment-application
+module github.com/labbsr0x/convid-windows-agent/rdp-application
 
 go 1.14
 

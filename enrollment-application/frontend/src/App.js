@@ -21,10 +21,27 @@ function AppModel() {
   const [error, setError] = React.useState("")
   const [busy, setBusy] = React.useState(false)
   const [machineId, setMachineId] = React.useState("")
-
-  const enroll = (address, accountId) => {
+  const [address, setAddress] = React.useState("")
+  const [accountID, setAccountID] = React.useState("")
+  
+  React.useEffect(() => {
     setBusy(true)
-    window.backend.doRegister(address, accountId).then(ret => {
+    window.backend.doLoadConfig().then((ret) => {
+      if (!ret.error) {
+        setAddress(ret.address)
+        setAccountID(ret.accountID)
+      } else {
+        setError(ret.error)
+      }
+      setBusy(false)
+    }).catch(setError)
+  }, []);
+
+  const enroll = (address, accountID) => {
+    setBusy(true)
+    setAddress(address)
+    setAccountID(accountID)
+    window.backend.doRegister(address, accountID).then(ret => {
       if (!ret.error) {
         setMachineId(ret.machineId)
         setError(false)
@@ -34,7 +51,7 @@ function AppModel() {
         if (ret["error"].indexOf("such host") !== -1 || ret["error"].indexOf("refused") !== -1) {
           setError("Unreachable host")
         } else if (ret["error"].indexOf("404") !== -1) {
-          setError(t("Company not found with ID") + " " + accountId)
+          setError(t("Company not found with ID") + " " + accountID)
         } else {
           setError(ret["error"])
         }
@@ -46,6 +63,8 @@ function AppModel() {
     error, setError,
     busy,
     machineId,
+    address,
+    accountID,
     enroll
   }
 }
@@ -58,7 +77,9 @@ function App() {
     error, setError,
     busy,
     machineId,
-    enroll
+    enroll,
+    address,
+    accountID,
   } = AppModel()
 
   return (
@@ -68,7 +89,7 @@ function App() {
       </div>
       {!busy && <>
         <div className="content-area">
-          {!machineId && !error && <EnrollmentForm enroll={enroll} />}
+          {!machineId && !error && <EnrollmentForm enroll={enroll} defaultAddress={address} defaultAccountID={accountID}/>}
           {machineId && <div className="machineid-area">
             <div>{t("Machine successfully registered")}</div>
             <h1>{machineId} <img src={copyIcon} alt="Copy" onClick={_ => copyTextToClipboard(machineId)} className="copy-button" title={t("Copy to clipboard")} /></h1>
