@@ -35,7 +35,7 @@ function AppModel() {
     setBusy(false)
     setError("Timeout connecting to remote")
   })
-  
+
   React.useEffect(() => {
     setBusy(true)
     window.backend.doLoadConfig().then((ret) => {

@@ -85,27 +85,33 @@ func (t *Agent) SaveConfig(address string, accountID string) error {
 
 // WailsInit initiates a new instance of the App resources
 func (t *Agent) WailsInit(runtime *wails.Runtime) error {
+
+	runID := time.Now().Format("run-2006-01-02-15-04-05")
+	homedir, err := runtime.FileSystem.HomeDir()
+	if err != nil {
+		logrus.Warnf("Homedir NOT resolved: %s", err)
+	} else {
+		logrus.Infof("Homedir resolved: %s", homedir)
+		logLocation := filepath.Join(homedir, runID+".log")
+		logFile, err := os.OpenFile(logLocation, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0600)
+		if err != nil {
+			logger.GlobalLogger.Fatal(err)
+		}
+		logger.GlobalLogger.SetOutput((io.MultiWriter(os.Stdout, logFile)))
+		logrus.SetOutput((io.MultiWriter(os.Stdout, logFile)))
+		logrus.RegisterExitHandler(func() {
+			if logFile != nil {
+				logFile.Close()
+			}
+		})
+	}
 	logrus.Infof("Initializing Convid...")
 	t.runtime = runtime
 	t.logger = t.runtime.Log.New("Agent")
-	t.logger.Info("Starting Convid Agent")
-
-	homedir, err := runtime.FileSystem.HomeDir()
-	t.logger.Infof("Homedir resolved: %s", homedir)
-	if err != nil {
-		return err
-	}
-
-	runID := time.Now().Format("run-2006-01-02-15-04-05")
-	logLocation := filepath.Join(homedir, runID+".log")
-	logFile, err := os.OpenFile(logLocation, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0600)
-	if err != nil {
-		logger.GlobalLogger.Fatal(err)
-	}
-	logger.GlobalLogger.SetOutput((io.MultiWriter(os.Stdout, logFile)))
+	logrus.Info("Starting Convid Agent")
 
 	t.filename = path.Join(homedir, "convid-machine-server.json")
-	t.logger.Infof("filename resolved: %s", t.filename)
+	logrus.Infof("filename resolved: %s", t.filename)
 	t.runtime.Window.SetTitle("Convid Remote Desktop Provider")
 	return nil
 }
