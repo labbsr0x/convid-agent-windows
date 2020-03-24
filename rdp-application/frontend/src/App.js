@@ -68,7 +68,7 @@ function AppModel() {
         }
       }
       setBusy(false)
-    }).catch(setError);
+    })
   }
   return {
     error, setError,
