@@ -9,6 +9,8 @@ import (
 	"github.com/fsnotify/fsnotify"
 	"github.com/sirupsen/logrus"
 	"github.com/wailsapp/wails"
+
+	"encoding/json"
 )
 
 // Agent is an running app on the machine
@@ -17,6 +19,13 @@ type Agent struct {
 	runtime  *wails.Runtime
 	logger   *wails.CustomLogger
 	watcher  *fsnotify.Watcher
+	config   *AgentConfig
+}
+
+// AgentConfig is the configuration of running app
+type AgentConfig struct {
+	Address   string `json:"address"`
+	MachineID string `json:"machine-id"`
 }
 
 // NewAgent attempts to create a new Agent instance
@@ -26,33 +35,48 @@ func NewAgent() (*Agent, error) {
 }
 
 // LoadConfig loads the saved configurations of the instance, like the machineId its is set
-func (t *Agent) LoadConfig() (string, error) {
+func (t *Agent) LoadConfig() (err error) {
 	t.logger.Infof("Loading config from: %s", t.filename)
+
+	t.config = &AgentConfig{}
+
+	_, err = os.Stat(t.filename)
+	if os.IsNotExist(err) {
+		t.logger.Warn("Not founded config file for load!")
+		return nil
+	}
+
 	bytes, err := ioutil.ReadFile(t.filename)
 	if err != nil {
-		err = fmt.Errorf("Unable to open config: %s", t.filename)
+		return fmt.Errorf("Unable to open config: %s", t.filename)
 	}
-	machineID := string(bytes)
-	t.runtime.Window.SetTitle("Convid - " + machineID)
-	return machineID, err
+
+	err = json.Unmarshal(bytes, t.config)
+	if err != nil {
+		return fmt.Errorf("Unable to parse config file: %v", err)
+	}
+
+	t.logger.Infof("Loaded config: %v", t.config)
+
+	// t.runtime.Window.SetTitle("Convid - " + machineID)
+	return err
 }
 
 //SaveConfig saves the current configuration
-func (t *Agent) SaveConfig(machineID string, ssHost string, sshPort string, sshUnsername string, sshPassword string, tunnelPort string) error {
-	return ioutil.WriteFile(t.filename, []byte(machineID), 0600)
-}
+func (t *Agent) SaveConfig(address string, machineID string) error {
+	t.logger.Infof("Saving config in: %s", t.filename)
 
-func (t *Agent) resolveFile() error {
-	_, err := os.Stat(t.filename)
-	if os.IsNotExist(err) {
-		err = ioutil.WriteFile(t.filename, []byte(""), 0600)
-		if err != nil {
-			return err
-		}
-		t.logger.Infof("File created and initialized: %s", t.filename)
-		return nil
+	t.config.Address = address
+	t.config.MachineID = machineID
+
+	t.logger.Infof("Storing config: %v", t.config)
+
+	d, err := json.Marshal(t.config)
+	if err != nil {
+		return fmt.Errorf("error: %v", err)
 	}
-	return err
+
+	return ioutil.WriteFile(t.filename, d, 0600)
 }
 
 // WailsInit initiates a new instance of the App resources
@@ -67,8 +91,8 @@ func (t *Agent) WailsInit(runtime *wails.Runtime) error {
 	if err != nil {
 		return err
 	}
-	t.filename = path.Join(homedir, "convid-machine")
+	t.filename = path.Join(homedir, "convid-machine-client.json")
 	t.logger.Infof("filename resolved: %s", t.filename)
 	t.runtime.Window.SetTitle("Convid Remote Desktop Provider")
-	return t.resolveFile()
+	return nil
 }
