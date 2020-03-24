@@ -2,13 +2,17 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"io/ioutil"
 	"os"
 	"path"
+	"path/filepath"
+	"time"
 
 	"github.com/fsnotify/fsnotify"
 	"github.com/sirupsen/logrus"
 	"github.com/wailsapp/wails"
+	"github.com/wailsapp/wails/lib/logger"
 )
 
 // Agent is an running app on the machine
@@ -67,6 +71,15 @@ func (t *Agent) WailsInit(runtime *wails.Runtime) error {
 	if err != nil {
 		return err
 	}
+
+	runID := time.Now().Format("run-2006-01-02-15-04-05")
+	logLocation := filepath.Join(homedir, runID+".log")
+	logFile, err := os.OpenFile(logLocation, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0600)
+	if err != nil {
+		logger.GlobalLogger.Fatal(err)
+	}
+	logger.GlobalLogger.SetOutput((io.MultiWriter(os.Stdout, logFile)))
+
 	t.filename = path.Join(homedir, "convid-machine")
 	t.logger.Infof("filename resolved: %s", t.filename)
 	t.runtime.Window.SetTitle("Convid Remote Desktop Provider")

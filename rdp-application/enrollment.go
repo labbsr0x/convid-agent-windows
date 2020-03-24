@@ -76,7 +76,7 @@ func register(address string, machineID string) (result map[string]string, err e
 		if runtime.GOOS == "windows" { // invoke mstsc
 			c := exec.Command("mstsc", "/v:127.0.0.1:43389")
 			if err := c.Run(); err != nil {
-				logrus.Infof("Error callinsg MSTSC: ", err)
+				logrus.Infof("Error callinsg MSTSC: %s", err)
 			}
 		}
 	})
