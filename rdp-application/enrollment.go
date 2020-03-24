@@ -80,6 +80,7 @@ func register(address string, machineID string) (result map[string]string, err e
 				logrus.Infof("Error callinsg MSTSC: %s", err)
 			}
 		}
+
 	})
 	return
 }

@@ -1,9 +1,13 @@
 package main
 
 import (
+	"time"
+
 	client "github.com/jairsjunior/go-ssh-client-tunnel/clientv2"
 	"github.com/sirupsen/logrus"
 )
+
+var successConfirmedTimer *time.Timer
 
 func connect(sshServerHost string, sshServerPort int, user string, password string, localRDPHost string, localRDPPort int, tunneltoHost string, tunneltoPort int) {
 	localRDPEndpoint := client.Endpoint{
@@ -27,7 +31,14 @@ func connect(sshServerHost string, sshServerPort int, user string, password stri
 
 	for {
 		// go client.CreateConnectionLocalV2(user, password, localRDPEndpoint, tunneltoEndpoint, sshServerEndpoint, isConnected)
-		client.CreateConnectionLocalV2(user, password, localRDPEndpoint, tunneltoEndpoint, sshServerEndpoint)
+		successConfirmedTimer = time.AfterFunc(time.Duration(3)*time.Second, func() {
+			agentInstance.runtime.Events.Emit("ConnectionSucceed")
+		})
+		err := client.CreateConnectionLocalV2(user, password, localRDPEndpoint, tunneltoEndpoint, sshServerEndpoint)
+		if err != nil {
+			successConfirmedTimer.Stop()
+			agentInstance.runtime.Events.Emit("ConnectionError")
+		}
 
 		// v := <-isConnected
 
