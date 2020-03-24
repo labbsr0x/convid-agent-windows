@@ -51,7 +51,8 @@ function AppModel() {
 
   const enroll = (address, machineID) => {
     setBusy(true)
-
+    setAddress(address)
+    setMachineID(machineID)
     window.backend.doRegister(address, machineID).then(ret => {
       if (!ret.error) {
         setMachineInfo(ret)
