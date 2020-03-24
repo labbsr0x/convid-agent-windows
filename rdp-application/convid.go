@@ -104,6 +104,11 @@ func (t *Agent) WailsInit(runtime *wails.Runtime) error {
 	}
 	logger.GlobalLogger.SetOutput((io.MultiWriter(os.Stdout, logFile)))
 	logrus.SetOutput((io.MultiWriter(os.Stdout, logFile)))
+	logrus.RegisterExitHandler(func() {
+		if logFile != nil {
+			logFile.Close()
+		}
+	})
 
 	t.filename = path.Join(homedir, "convid-machine-client.json")
 	t.logger.Infof("filename resolved: %s", t.filename)
