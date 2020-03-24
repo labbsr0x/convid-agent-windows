@@ -7,12 +7,12 @@ import { useTranslation } from 'react-i18next';
 
 // The Model is defined here and not in a separeted file because of
 // babel issues that I couldn't fix (Tiago Stutz)
-function EnrollmentFormModel() {
+function EnrollmentFormModel(defaultAddress, defaultAccountID) {
 
     const [sealed] = React.useState(process.env.REACT_APP_SEALED)
     const [submitEnabled, setSubmitEnabled] = React.useState(false)
-    const [serverAddress, setServerAddress] = React.useState(process.env.REACT_APP_SERVER_ADDRESS)
-    const [accountId, setAccountId] = React.useState(process.env.REACT_APP_ACCOUNT_ID)
+    const [serverAddress, setServerAddress] = React.useState(defaultAddress || process.env.REACT_APP_SERVER_ADDRESS)
+    const [accountId, setAccountId] = React.useState(defaultAccountID || process.env.REACT_APP_ACCOUNT_ID)
 
     useEffect(_ => {
         setSubmitEnabled(serverAddress && accountId)
@@ -26,7 +26,7 @@ function EnrollmentFormModel() {
     }
 }
 
-function EnrollmentForm({ enroll }) {
+function EnrollmentForm({ enroll, defaultAddress, defaultAccountID }) {
 
     const { t } = useTranslation();
 
@@ -35,7 +35,7 @@ function EnrollmentForm({ enroll }) {
         submitEnabled,
         serverAddress, setServerAddress,
         accountId, setAccountId
-    } = EnrollmentFormModel()
+    } = EnrollmentFormModel(defaultAddress, defaultAccountID)
 
     const onEnroll = () => {
         if (serverAddress && accountId) {

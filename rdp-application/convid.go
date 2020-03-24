@@ -91,7 +91,7 @@ func (t *Agent) WailsInit(runtime *wails.Runtime) error {
 	if err != nil {
 		return err
 	}
-	t.filename = path.Join(homedir, "convid-machine")
+	t.filename = path.Join(homedir, "convid-machine-client.json")
 	t.logger.Infof("filename resolved: %s", t.filename)
 	t.runtime.Window.SetTitle("Convid Remote Desktop Provider")
 	return nil
