@@ -23,7 +23,9 @@ function AppModel() {
   const [machineId, setMachineId] = React.useState("")
   const [address, setAddress] = React.useState("")
   const [accountID, setAccountID] = React.useState("")
-  
+  const [connected, setConnected] = React.useState(false)
+  const [autoSubmit, setAutoSubmit] = React.useState(false)
+
   React.useEffect(() => {
     setBusy(true)
     window.backend.doLoadConfig().then((ret) => {
@@ -36,6 +38,17 @@ function AppModel() {
       setBusy(false)
     }).catch(setError)
   }, []);
+
+  window.wails.Events.On("ConnectionSucceed", _ => {
+    setConnected(true)
+    setError(false)
+    setBusy(false)
+  })
+  window.wails.Events.On("ConnectionError", _ => {
+    setConnected(false)
+    setBusy(false)
+    setError("Timeout connecting to server")
+  })
 
   const enroll = (address, accountID) => {
     setBusy(true)
@@ -55,17 +68,29 @@ function AppModel() {
         } else {
           setError(ret["error"])
         }
+        setBusy(false)
       }
-      setBusy(false)
     });
   }
+
+  const tryAgain = () => {
+    setAutoSubmit(true)
+    setError(false)
+    setMachineId("")
+    setAddress("")
+    setAccountID("")
+  }
+
   return {
+    connected,
     error, setError,
     busy,
     machineId,
     address,
     accountID,
-    enroll
+    enroll,
+    autoSubmit,
+    tryAgain
   }
 }
 
@@ -74,12 +99,15 @@ function App() {
   const { t } = useTranslation()
 
   const {
-    error, setError,
+    error,
+    connected,
     busy,
     machineId,
-    enroll,
-    address,
     accountID,
+    address,
+    enroll,
+    autoSubmit,
+    tryAgain
   } = AppModel()
 
   return (
@@ -89,16 +117,19 @@ function App() {
       </div>
       {!busy && <>
         <div className="content-area">
-          {!machineId && !error && <EnrollmentForm enroll={enroll} defaultAddress={address} defaultAccountID={accountID}/>}
-          {machineId && <div className="machineid-area">
+
+          {!machineId && !error && !connected && <EnrollmentForm enroll={enroll} autoSubmit={autoSubmit} defaultAddress={address} defaultAccountID={accountID} />}
+
+          {machineId && !error && connected && <div className="machineid-area">
             <div>{t("Machine successfully registered")}</div>
             <h1>{machineId} <img src={copyIcon} alt="Copy" onClick={_ => copyTextToClipboard(machineId)} className="copy-button" title={t("Copy to clipboard")} /></h1>
             <div>{t("Take a picture or write down a note of the above code because it will be requested when remotely accessing this machine")}</div>
           </div>}
+
           {error && <div className="machineid-area">
             <h1>{t("Error registering")}</h1>
             <div>{t(error)}</div>
-            <div style={{ marginTop: "1rem" }}><Button onClick={_ => setError(false)} variant="outlined">{t("Try again")}</Button></div>
+            <div style={{ marginTop: "1rem" }}><Button onClick={_ => tryAgain()} variant="outlined">{t("Try again")}</Button></div>
           </div>}
         </div>
       </>}

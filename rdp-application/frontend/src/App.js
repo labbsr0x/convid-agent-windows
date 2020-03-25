@@ -29,11 +29,12 @@ function AppModel() {
 
   window.wails.Events.On("ConnectionSucceed", _ => {
     setConnected(true)
+    setBusy(false)
   })
   window.wails.Events.On("ConnectionError", _ => {
     setConnected(false)
     setBusy(false)
-    setError("Timeout connecting to remote")
+    setError("Timeout connecting to server")
   })
 
   React.useEffect(() => {
@@ -66,19 +67,26 @@ function AppModel() {
         } else {
           setError(ret["error"])
         }
+        setBusy(false)
       }
-      setBusy(false)
-    })
+    }).catch(setError)
+  }
+
+  const tryAgain = () => {
+    setError(false)
+    setAddress("")
+    setMachineInfo(null)
   }
   return {
-    error, setError,
+    error,
     busy,
     machineInfo,
     localPort,
     connected,
     address,
     machineID,
-    enroll
+    enroll,
+    tryAgain
   }
 }
 
@@ -87,14 +95,15 @@ function App() {
   const { t } = useTranslation()
 
   const {
-    error, setError,
+    error,
     busy,
     machineInfo,
     localPort,
     connected,
-    enroll,
     address,
     machineID,
+    enroll,
+    tryAgain
   } = AppModel()
 
   const remoteMachineAddress = machineInfo ? "127.0.0.1:" + localPort : ""
@@ -106,12 +115,9 @@ function App() {
       </div>
       {!busy && <>
         <div className="content-area">
-          {!machineInfo && !error && <EnrollmentForm enroll={enroll} defaultAddress={address} defaultMachineID={machineID} />}
-          {machineInfo && !connected && <div className="loading-area">
-            <h1>{t("Connecting to RDP gateway")}...</h1>
-            <img src={loadingIcon} alt="Loading" className="loadingIcon" />
-          </div>}
-          {machineInfo && connected && <div className="machineid-area">
+          {!machineInfo && !error && !connected && <EnrollmentForm enroll={enroll} defaultAddress={address} defaultMachineID={machineID} />}
+
+          {machineInfo && !error && connected && <div className="machineid-area">
             <div>{t("Successfully connected")}</div>
             <h1>{remoteMachineAddress} <img src={copyIcon} alt="Copy" onClick={_ => copyTextToClipboard(remoteMachineAddress)} className="copy-button" title={t("Copy to clipboard")} /></h1>
             <div>{t("Open your Remote Desktop Application and use the following address to connect")}: {remoteMachineAddress}</div>
@@ -120,20 +126,19 @@ function App() {
           {error && <div className="machineid-area">
             <h1>{t("Error registering")}</h1>
             <div>{t(error)}</div>
-            <div style={{ marginTop: "1rem" }}><Button onClick={_ => setError(false)} variant="outlined">{t("Try again")}</Button></div>
+            <div style={{ marginTop: "1rem" }}><Button onClick={_ => tryAgain()} variant="outlined">{t("Try again")}</Button></div>
           </div>}
         </div>
       </>}
       {busy && <>
-        <div className="loading-area">
+        {!machineInfo && <div className="loading-area">
           <h1>{t("Getting Account Information")}...</h1>
           <img src={loadingIcon} alt="Loading" className="loadingIcon" />
-        </div>
+        </div>}
 
-        {error && !connected && <div className="loading-area">
-          <h1>{t("Timeout connecting to remote desktop")}</h1>
-          <div>{t(error)}</div>
-          <div style={{ marginTop: "1rem" }}><Button onClick={_ => setError(false)} variant="outlined">{t("Try again")}</Button></div>
+        {machineInfo && !connected && <div className="loading-area">
+          <h1>{t("Connecting to RDP gateway")}...</h1>
+          <img src={loadingIcon} alt="Loading" className="loadingIcon" />
         </div>}
 
       </>}

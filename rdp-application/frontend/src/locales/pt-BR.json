@@ -2,10 +2,12 @@
 	"translation": {
 		"Account E-mail": "E-mail de cadastro",
 		"Company not found with ID": "Empresa não encontrada para o CNPJ",
+		"Timeout connecting to server": "Tempo limite de conexão esgotado",
 		"Connecting to RDP gateway": "Conectando-se ao RDP Gateway",
 		"Copy to clipboard": "Copiar código",
 		"Error registering": "Erro ao registrar",
 		"Machine successfully registered": "Máquina habilitada com sucesso!",
+		"Machine not found with ID": "Máquina não encontrada para o código",
 		"Organization Login": "Seu CNPJ",
 		"Connect to remote computer": "Conectar-se ao computador remoto",
 		"Register this machine": "Habilitar essa máquina",
