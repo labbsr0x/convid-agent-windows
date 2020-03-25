@@ -67,8 +67,9 @@ function AppModel() {
         } else {
           setError(ret["error"])
         }
+        setBusy(false)
       }
-    })
+    }).catch(setError)
   }
 
   const tryAgain = () => {

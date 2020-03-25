@@ -68,6 +68,7 @@ function AppModel() {
         } else {
           setError(ret["error"])
         }
+        setBusy(false)
       }
     });
   }
