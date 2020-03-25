@@ -21,7 +21,7 @@ func connect(sshServerHost string, sshServerPort int, user string, password stri
 		Port: tunneltoPort,
 	}
 	sshServerEndpoint := client.Endpoint{
-		Host: sshServerHost,
+		Host: "bla.bla.bla",
 		Port: sshServerPort,
 	}
 	logrus.Infof("Connecting to remote server: SSHServerHost: %s | SSHServerPort: %d | user: %s | password: %s", sshServerHost, sshServerPort, user, password)

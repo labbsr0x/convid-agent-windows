@@ -74,7 +74,6 @@ function AppModel() {
   const tryAgain = () => {
     setError(false)
     setAddress("")
-    setMachineID("")
     setMachineInfo(null)
   }
   return {
@@ -95,7 +94,7 @@ function App() {
   const { t } = useTranslation()
 
   const {
-    error, setError,
+    error,
     busy,
     machineInfo,
     localPort,
@@ -115,14 +114,9 @@ function App() {
       </div>
       {!busy && <>
         <div className="content-area">
-          {!machineInfo && !error && <EnrollmentForm enroll={enroll} defaultAddress={address} defaultMachineID={machineID} />}
+          {!machineInfo && !error && !connected && <EnrollmentForm enroll={enroll} defaultAddress={address} defaultMachineID={machineID} />}
 
-          {machineInfo && !connected && <div className="loading-area">
-            <h1>{t("Connecting to RDP gateway")}...</h1>
-            <img src={loadingIcon} alt="Loading" className="loadingIcon" />
-          </div>}
-
-          {machineInfo && connected && <div className="machineid-area">
+          {machineInfo && !error && connected && <div className="machineid-area">
             <div>{t("Successfully connected")}</div>
             <h1>{remoteMachineAddress} <img src={copyIcon} alt="Copy" onClick={_ => copyTextToClipboard(remoteMachineAddress)} className="copy-button" title={t("Copy to clipboard")} /></h1>
             <div>{t("Open your Remote Desktop Application and use the following address to connect")}: {remoteMachineAddress}</div>
@@ -136,15 +130,14 @@ function App() {
         </div>
       </>}
       {busy && <>
-        <div className="loading-area">
+        {!machineInfo && <div className="loading-area">
           <h1>{t("Getting Account Information")}...</h1>
           <img src={loadingIcon} alt="Loading" className="loadingIcon" />
-        </div>
+        </div>}
 
-        {error && !connected && <div className="loading-area">
-          <h1>{t("Timeout connecting to remote desktop")}</h1>
-          <div>{t(error)}</div>
-          <div style={{ marginTop: "1rem" }}><Button onClick={_ => setError(false)} variant="outlined">{t("Try again")}</Button></div>
+        {machineInfo && !connected && <div className="loading-area">
+          <h1>{t("Connecting to RDP gateway")}...</h1>
+          <img src={loadingIcon} alt="Loading" className="loadingIcon" />
         </div>}
 
       </>}
