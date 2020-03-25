@@ -5,6 +5,7 @@
 		"Connect to remote computer": "Connect to remote computer",
 		"Connecting to RDP gateway": "Connecting to RDP gateway",
 		"Copy to clipboard": "Copy to clipboard",
+		"Timeout connecting to server": "Timeout connecting to server",
 		"Error registering": "Error registering",
 		"Machine successfully registered": "Machine successfully registered",
 		"Open your Remote Desktop Application and use the following address to connect": "Open your Remote Desktop Application and use the following address to connect",

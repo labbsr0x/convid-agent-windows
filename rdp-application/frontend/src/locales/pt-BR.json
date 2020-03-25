@@ -2,6 +2,7 @@
 	"translation": {
 		"Account E-mail": "E-mail de cadastro",
 		"Company not found with ID": "Empresa não encontrada para o CNPJ",
+		"Timeout connecting to server": "Tempo limite de conexão esgotado",
 		"Connecting to RDP gateway": "Conectando-se ao RDP Gateway",
 		"Copy to clipboard": "Copiar código",
 		"Error registering": "Erro ao registrar",

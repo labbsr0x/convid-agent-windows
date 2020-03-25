@@ -26,7 +26,7 @@ function EnrollmentFormModel(defaultAddress, defaultAccountID) {
     }
 }
 
-function EnrollmentForm({ enroll, defaultAddress, defaultAccountID }) {
+function EnrollmentForm({ enroll, defaultAddress, defaultAccountID, autoSubmit }) {
 
     const { t } = useTranslation();
 
@@ -41,6 +41,10 @@ function EnrollmentForm({ enroll, defaultAddress, defaultAccountID }) {
         if (serverAddress && accountId) {
             enroll(serverAddress, accountId)
         }
+    }
+
+    if (autoSubmit) {
+        onEnroll()
     }
 
     return <>
