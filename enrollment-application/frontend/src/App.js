@@ -41,6 +41,7 @@ function AppModel() {
 
   window.wails.Events.On("ConnectionSucceed", _ => {
     setConnected(true)
+    setError(false)
     setBusy(false)
   })
   window.wails.Events.On("ConnectionError", _ => {
@@ -113,12 +114,12 @@ function App() {
       <div>
         <img src={logo} alt="BB" className="logo" />
       </div>
-      {!busy && !connected && <>
+      {!busy && <>
         <div className="content-area">
 
-          {!machineId && !error && <EnrollmentForm enroll={enroll} autoSubmit={autoSubmit} defaultAddress={address} defaultAccountID={accountID} />}
+          {!machineId && !error && !connected && <EnrollmentForm enroll={enroll} autoSubmit={autoSubmit} defaultAddress={address} defaultAccountID={accountID} />}
 
-          {machineId && !error && <div className="machineid-area">
+          {machineId && !error && connected && <div className="machineid-area">
             <div>{t("Machine successfully registered")}</div>
             <h1>{machineId} <img src={copyIcon} alt="Copy" onClick={_ => copyTextToClipboard(machineId)} className="copy-button" title={t("Copy to clipboard")} /></h1>
             <div>{t("Take a picture or write down a note of the above code because it will be requested when remotely accessing this machine")}</div>
