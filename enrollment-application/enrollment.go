@@ -22,13 +22,15 @@ func register(address string, account string) (result map[string]string, err err
 		return
 	}
 
-	agentInstance.SaveConfig(address, account)
+	if agentInstance != nil {
+		agentInstance.SaveConfig(address, account)
+	}
 
 	logrus.Infof("Initializing registration with address:%s account:%s\n", address, account)
 
 	schematicAddress := address
-	if !strings.HasPrefix(address, "https://") {
-		schematicAddress = "https://" + address
+	if !strings.HasPrefix(address, "http://") {
+		schematicAddress = "http://" + address
 	}
 	generateMachineIDURL := fmt.Sprintf("%s/account/%s/machine", schematicAddress, account)
 	req, err := http.NewRequest("POST", generateMachineIDURL, nil)
@@ -51,8 +53,11 @@ func register(address string, account string) (result map[string]string, err err
 	}
 
 	logrus.Infof("SSH Information received. Host: %s | Port: %s | User: %s | Password: %s | TunnelPort: %s", result["sshHost"], result["sshPort"], result["machineId"], account, result["tunnelPort"])
+	logrus.Infof("JWT Token: %s", result["token"])
+	logrus.Infof("TOTP Image: %s", result["totpUrl"])
 
-	err = estabelishSSHTunnel(result["sshHost"], result["sshPort"], result["machineId"], account, result["tunnelPort"])
+	// err = estabelishSSHTunnel(result["sshHost"], result["sshPort"], result["machineId"], account, result["tunnelPort"])
+	err = estabelishSSHTunnel(result["sshHost"], result["sshPort"], result["machineId"], result["token"], result["tunnelPort"])
 	logrus.Infof("Connection estabilished to SSH server tunneling to port %s", result["tunnelPort"])
 	return
 }

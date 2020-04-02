@@ -21,7 +21,7 @@ func connect(sshServerHost string, sshServerPort int, user string, password stri
 		Port: tunneltoPort,
 	}
 	sshServerEndpoint := client.Endpoint{
-		Host: "bla.bla.bla",
+		Host: sshServerHost,
 		Port: sshServerPort,
 	}
 	logrus.Infof("Connecting to remote server: SSHServerHost: %s | SSHServerPort: %d | user: %s | password: %s", sshServerHost, sshServerPort, user, password)
@@ -33,14 +33,6 @@ func connect(sshServerHost string, sshServerPort int, user string, password stri
 
 	for {
 		go client.CreateConnectionLocalV2(user, password, localRDPEndpoint, tunneltoEndpoint, sshServerEndpoint, isConnected)
-		// successConfirmedTimer = time.AfterFunc(time.Duration(3)*time.Second, func() {
-		// 	agentInstance.runtime.Events.Emit("ConnectionSucceed")
-		// })
-		// err := client.CreateConnectionLocalV2(user, password, localRDPEndpoint, tunneltoEndpoint, sshServerEndpoint)
-		// if err != nil {
-		// 	successConfirmedTimer.Stop()
-		// 	agentInstance.runtime.Events.Emit("ConnectionError")
-		// }
 
 		v := <-isConnected
 

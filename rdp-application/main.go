@@ -31,6 +31,16 @@ func doRegister(address string, machineID string) map[string]string {
 	return ret
 }
 
+func doConnectTotp(address string, machineID string, totpCode string) map[string]string {
+	ret, err := connectTotp(address, machineID, totpCode)
+	if err != nil {
+		return map[string]string{
+			"error": err.Error(),
+		}
+	}
+	return ret
+}
+
 func main() {
 
 	var err error
@@ -54,5 +64,6 @@ func main() {
 	app.Bind(agentInstance)
 	app.Bind(doLoadConfig)
 	app.Bind(doRegister)
+	app.Bind(doConnectTotp)
 	app.Run()
 }

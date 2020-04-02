@@ -12,6 +12,7 @@
 		"Click the button below to enable it to be remotely accesed": "Click the button below to enable it to be remotely accesed",
 		"Server Address": "Server Address",
 		"Take a picture or write down a note of the above code because it will be requested when remotely accessing this machine": "Take a picture or write down a note of the above code because it will be requested when remotely accessing this machine",
+		"Register this QRCode at your TOTP software of preference": "Register this QRCode at your TOTP software of preference",
 		"Unreachable host": "Unreachable host",
 		"Your machine is being registered": "Your machine is being registered"
 	}

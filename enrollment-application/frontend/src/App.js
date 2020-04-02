@@ -21,6 +21,7 @@ function AppModel() {
   const [error, setError] = React.useState("")
   const [busy, setBusy] = React.useState(false)
   const [machineId, setMachineId] = React.useState("")
+  const [totpImage, setTotpImage] = React.useState("")
   const [address, setAddress] = React.useState("")
   const [accountID, setAccountID] = React.useState("")
   const [connected, setConnected] = React.useState(false)
@@ -57,9 +58,11 @@ function AppModel() {
     window.backend.doRegister(address, accountID).then(ret => {
       if (!ret.error) {
         setMachineId(ret.machineId)
+        setTotpImage(ret.totpUrl)
         setError(false)
       } else {
         setMachineId("")
+        setTotpImage("")
 
         if (ret["error"].indexOf("such host") !== -1 || ret["error"].indexOf("refused") !== -1) {
           setError("Unreachable host")
@@ -77,6 +80,7 @@ function AppModel() {
     setAutoSubmit(true)
     setError(false)
     setMachineId("")
+    setTotpImage("")
     setAddress("")
     setAccountID("")
   }
@@ -86,6 +90,7 @@ function AppModel() {
     error, setError,
     busy,
     machineId,
+    totpImage,
     address,
     accountID,
     enroll,
@@ -104,6 +109,7 @@ function App() {
     busy,
     machineId,
     accountID,
+    totpImage,
     address,
     enroll,
     autoSubmit,
@@ -124,6 +130,10 @@ function App() {
             <div>{t("Machine successfully registered")}</div>
             <h1>{machineId} <img src={copyIcon} alt="Copy" onClick={_ => copyTextToClipboard(machineId)} className="copy-button" title={t("Copy to clipboard")} /></h1>
             <div>{t("Take a picture or write down a note of the above code because it will be requested when remotely accessing this machine")}</div>
+            {totpImage && <div> 
+              <img src={totpImage} alt="QRCode"/>
+              <div>{t("Register this QRCode at your TOTP software of preference")}</div>
+            </div>}
           </div>}
 
           {error && <div className="machineid-area">

@@ -26,6 +26,7 @@ function AppModel() {
 
   const [address, setAddress] = React.useState("")
   const [machineID, setMachineID] = React.useState("")
+  const [withTotp, setWithTotp] = React.useState("")
 
   window.wails.Events.On("ConnectionSucceed", _ => {
     setConnected(true)
@@ -50,32 +51,58 @@ function AppModel() {
     }).catch(setError)
   }, []);
 
-  const enroll = (address, machineID) => {
+  const enroll = (address, machineID, totpCode) => {
     setBusy(true)
     setAddress(address)
     setMachineID(machineID)
-    window.backend.doRegister(address, machineID).then(ret => {
-      if (!ret.error) {
-        setMachineInfo(ret)
-        setError(false)
-      } else {
-        setMachineInfo(null)
-        if (ret["error"].indexOf("such host") !== -1 || ret["error"].indexOf("refused") !== -1) {
-          setError("Unreachable host")
-        } else if (ret["error"].indexOf("404") !== -1) {
-          setError(t("Machine not found with ID") + " " + machineID)
+    if (totpCode) {
+      window.backend.doConnectTotp(address, machineID, totpCode).then(ret => {
+        if (!ret.error) {
+          setMachineInfo(ret)
+          setError(false)
         } else {
-          setError(ret["error"])
+          setMachineInfo(null)
+          if (ret["error"].indexOf("such host") !== -1 || ret["error"].indexOf("refused") !== -1) {
+            setError("Unreachable host")
+          } else if (ret["error"].indexOf("404") !== -1) {
+            setError(t("Machine not found with ID") + " " + machineID)
+          } else {
+            setError(ret["error"])
+          }
+          setBusy(false)
         }
-        setBusy(false)
-      }
-    }).catch(setError)
+      }).catch(setError)
+    }else{
+      window.backend.doRegister(address, machineID).then(ret => {
+        if (!ret.error) {
+          if(ret.withTotp){
+            setWithTotp(true)
+            setError(false)
+            setBusy(false)
+          }else{
+            setMachineInfo(ret)
+            setError(false)
+          }
+        } else {
+          setMachineInfo(null)
+          if (ret["error"].indexOf("such host") !== -1 || ret["error"].indexOf("refused") !== -1) {
+            setError("Unreachable host")
+          } else if (ret["error"].indexOf("404") !== -1) {
+            setError(t("Machine not found with ID") + " " + machineID)
+          } else {
+            setError(ret["error"])
+          }
+          setBusy(false)
+        }
+      }).catch(setError)
+    }
   }
 
   const tryAgain = () => {
     setError(false)
     setAddress("")
     setMachineInfo(null)
+    setWithTotp(false)
   }
   return {
     error,
@@ -86,7 +113,8 @@ function AppModel() {
     address,
     machineID,
     enroll,
-    tryAgain
+    tryAgain,
+    withTotp
   }
 }
 
@@ -103,7 +131,8 @@ function App() {
     address,
     machineID,
     enroll,
-    tryAgain
+    tryAgain,
+    withTotp,
   } = AppModel()
 
   const remoteMachineAddress = machineInfo ? "127.0.0.1:" + localPort : ""
@@ -115,7 +144,7 @@ function App() {
       </div>
       {!busy && <>
         <div className="content-area">
-          {!machineInfo && !error && !connected && <EnrollmentForm enroll={enroll} defaultAddress={address} defaultMachineID={machineID} />}
+          {!machineInfo && !error && !connected && <EnrollmentForm enroll={enroll} defaultAddress={address} defaultMachineID={machineID} defaultWithTotp={withTotp}/>}
 
           {machineInfo && !error && connected && <div className="machineid-area">
             <div>{t("Successfully connected")}</div>
