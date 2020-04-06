@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"testing"
 )
 
@@ -42,4 +43,14 @@ func TestRegisterWithoutAccount(t *testing.T) {
 	if err == nil || err.Error() != "Account not informed" {
 		t.Errorf("The not informed account handler is not working")
 	}
+}
+
+func TestRegisterUsingJWT(t *testing.T) {
+	result, err := register("http://localhost:9999", "00000000000000")
+	if err == nil {
+		t.Errorf("Error at get content: %s", err)
+	}
+
+	fmt.Println(result)
+	fmt.Println("End of test!")
 }

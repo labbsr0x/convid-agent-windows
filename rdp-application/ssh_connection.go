@@ -33,14 +33,6 @@ func connect(sshServerHost string, sshServerPort int, user string, password stri
 
 	for {
 		go client.CreateConnectionLocalV2(user, password, localRDPEndpoint, tunneltoEndpoint, sshServerEndpoint, isConnected)
-		// successConfirmedTimer = time.AfterFunc(time.Duration(3)*time.Second, func() {
-		// 	agentInstance.runtime.Events.Emit("ConnectionSucceed")
-		// })
-		// err := client.CreateConnectionLocalV2(user, password, localRDPEndpoint, tunneltoEndpoint, sshServerEndpoint)
-		// if err != nil {
-		// 	successConfirmedTimer.Stop()
-		// 	agentInstance.runtime.Events.Emit("ConnectionError")
-		// }
 
 		v := <-isConnected
 
