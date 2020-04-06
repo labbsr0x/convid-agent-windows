@@ -19,6 +19,7 @@
 		"Getting Account Information": "Getting Account Information",
 		"Unreachable host": "Unreachable host",
 		"Remote Machine Code": "Remote Machine Code",
-		"Your machine is being registered": "Your machine is being registered"
+		"Your machine is being registered": "Your machine is being registered",
+		"TOTP Code": "TOTP Code"
 	}
 }

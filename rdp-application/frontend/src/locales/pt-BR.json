@@ -19,6 +19,7 @@
 		"Getting Account Information": "Recuperando Informações da Conta",
 		"Remote Machine Code": "Código da máquina remota",
 		"Unreachable host": "Endereço não encontrado",
-		"Your machine is being registered": "Sua máquina está sendo habilitada"
+		"Your machine is being registered": "Sua máquina está sendo habilitada",
+		"TOTP Code": "Código TOTP"
 	}
 }
