@@ -1,3 +1,7 @@
+*.pub
+*.key
+*.pem
+
 server
 
 # macos files

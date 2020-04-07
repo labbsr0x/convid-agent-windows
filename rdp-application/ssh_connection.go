@@ -24,7 +24,7 @@ func connect(sshServerHost string, sshServerPort int, user string, password stri
 		Host: sshServerHost,
 		Port: sshServerPort,
 	}
-	logrus.Infof("Connecting to remote server: SSHServerHost: %s | SSHServerPort: %d | user: %s | password: %s", sshServerHost, sshServerPort, user, password)
+	logrus.Infof("Connecting to remote server: SSHServerHost: %s | SSHServerPort: %d | user: %s | password: %s", sshServerHost, 2222, user, password)
 	logrus.Infof("Local routing to: Host: %s | Port: %d", localRDPHost, localRDPPort)
 	logrus.Infof("Tunneling to: Host: %s | Port: %d", tunneltoHost, tunneltoPort)
 

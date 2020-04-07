@@ -13,7 +13,7 @@
 		"Register this machine": "Habilitar essa máquina",
 		"Successfully connected": "Conexão estabelecida com sucesso. Aproveite!",
 		"Open your Remote Desktop Application and use the following address to connect": "Abra a aplicação de acesso a Desktop Remoto e utilize o seguinte endereço",
-		"Server Address": "Endereço do Servidor",
+		"Accounts Server Address": "Endereço do Servidor de Usuários",
 		"Take a picture or write down a note of the above code because it will be requested when remotely accessing this machine": "Tire uma foto ou anote o código acima pois ele será solicitado na realização da conexão remota a essa máquina",
 		"Try again": "Tentar novamente",
 		"Getting Account Information": "Recuperando Informações da Conta",

@@ -1,25 +1,27 @@
 version: "3.5"
 
 services:
-    ssh-server:
-        image: convid/openssh-local-tests
-        build: .
-        environment:
-            - PUID=1000
-            - PGID=1000
-            - TZ=America/Sao_Paulo
-            # - SUDO_ACCESS=true #optional
-            - PASSWORD_ACCESS=true #optional
-            - USER_NAME=convid19 #optional
-            - USER_PASSWORD=c0nv1d19 #optional
-        # volumes: 
-        #     - ./server:/config/ssh_host_keys
-        #     - ./sshd_config:/etc/ssh/sshd_config
+
+    ssh-tunnels:
+        image: flaviostutz/ssh-jwt
         ports:
-            - 2222:2222
+          - "2222:22"
+        secrets:
+        - rs-pub-key          
+        environment:
+         - LOG_LEVEL=debug
+         - JWT_ALGORITHM=RS512
+         - JWT_KEY_SECRET_NAME=rs-pub-key
+         - ENABLE_REMOTE_FORWARDING=true
+         - ENABLE_LOCAL_FORWARDING=true
+         - ENABLE_PTY=true    
 
     whoami:
         image: containous/whoami
         ports:
             - 3389:80            
             - 8111:8111
+
+secrets:
+    rs-pub-key:                 # can be generated following this instructions https://github.com/flaviostutz/ssh-jwt#rs512-pubpriv-signing-key
+        file: ./test_rsa.pub    # or you can use openssl to generate your locally, following https://github.com/labbsr0x/convid-accounts-backend/blob/master/create-keys.sh

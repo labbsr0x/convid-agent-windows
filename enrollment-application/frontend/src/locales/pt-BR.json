@@ -6,7 +6,7 @@
 		"Machine successfully registered": "Máquina habilitada com sucesso!",
 		"Organization Login": "Seu CNPJ",
 		"Register this machine": "Habilitar essa máquina",
-		"Server Address": "Endereço do Servidor",
+		"Accounts Server Address": "Endereço do Servidor de Usuários",
 		"Try again": "Tentar novamente",
 		"Timeout connecting to server": "Tempo limite de conexão esgotado",
 		"Click the button below to enable it to be remotely accesed": "Clique no botão abaixo para tornar essa máquina acessível de casa",
