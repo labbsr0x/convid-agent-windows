@@ -52,7 +52,7 @@ function EnrollmentForm({ enroll, defaultAddress, defaultAccountID, autoSubmit }
 
             <div name="form">
                 <div>
-                    {!sealed && <TextField style={{ width: "300px" }} defaultValue={serverAddress} label={t("Server Address")} onChange={e => setServerAddress(e.target.value)} variant="standard" />}
+                    {!sealed && <TextField style={{ width: "300px" }} defaultValue={serverAddress} label={t("Accounts Server Address")} onChange={e => setServerAddress(e.target.value)} variant="standard" />}
                 </div>
                 <div>
                     {!sealed && <TextField style={{ width: "300px" }} defaultValue={accountId} type="text" onChange={e => setAccountId(e.target.value)} label={t("Organization Login")} variant="standard" />}

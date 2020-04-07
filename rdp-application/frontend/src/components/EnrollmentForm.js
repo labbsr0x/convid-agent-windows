@@ -13,8 +13,8 @@ function EnrollmentFormModel(defaultAddress, defaultMachineID, defaultWithTotp) 
     const [submitEnabled, setSubmitEnabled] = React.useState(false)
     const [serverAddress, setServerAddress] = React.useState(defaultAddress || process.env.REACT_APP_SERVER_ADDRESS)
     const [machineID, setMachineID] = React.useState(defaultMachineID)
-    const [totpCode, setTotpCode] =  React.useState("")
-    const [withTotp] =  React.useState(defaultWithTotp)
+    const [totpCode, setTotpCode] = React.useState("")
+    const [withTotp] = React.useState(defaultWithTotp)
 
     useEffect(_ => {
         setSubmitEnabled(serverAddress && machineID && (withTotp ? totpCode : true))
@@ -53,13 +53,13 @@ function EnrollmentForm({ enroll, defaultAddress, defaultMachineID, defaultWithT
         <div>
             <div name="form">
                 <div>
-                    {!sealed && <TextField style={{ width: "300px" }} defaultValue={serverAddress} label={t("Server Address")} onChange={e => setServerAddress(e.target.value)} variant="standard" />}
+                    {!sealed && <TextField style={{ width: "300px" }} defaultValue={serverAddress} label={t("Accounts Server Address")} onChange={e => setServerAddress(e.target.value)} variant="standard" />}
                 </div>
                 <div>
                     <TextField style={{ width: "300px" }} defaultValue={machineID} type="text" onChange={e => setMachineID(e.target.value.trim())} label={t("Remote Machine Code")} variant="standard" />
                 </div>
                 <div>
-                    {withTotp && <TextField style={{ width: "300px" }} defaultValue={totpCode} type="text" onChange={e => setTotpCode(e.target.value.trim())} label={t("TOTP Code")} variant="standard"/>}
+                    {withTotp && <TextField style={{ width: "300px" }} defaultValue={totpCode} type="text" onChange={e => setTotpCode(e.target.value.trim())} label={t("TOTP Code")} variant="standard" />}
                 </div>
                 <div className="button-area">
                     <Button variant="outlined" disabled={!submitEnabled} onClick={_ => onEnroll()}>{t("Connect to remote computer")}</Button>
