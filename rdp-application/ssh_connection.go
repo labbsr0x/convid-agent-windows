@@ -22,7 +22,7 @@ func connect(sshServerHost string, sshServerPort int, user string, password stri
 	}
 	sshServerEndpoint := client.Endpoint{
 		Host: sshServerHost,
-		Port: 2222,
+		Port: sshServerPort,
 	}
 	logrus.Infof("Connecting to remote server: SSHServerHost: %s | SSHServerPort: %d | user: %s | password: %s", sshServerHost, 2222, user, password)
 	logrus.Infof("Local routing to: Host: %s | Port: %d", localRDPHost, localRDPPort)
