@@ -23,5 +23,5 @@ services:
             - 8111:8111
 
 secrets:
-    rs-pub-key:
-        file: ./test_rsa.pub
+    rs-pub-key:                 # can be generated following this instructions https://github.com/flaviostutz/ssh-jwt#rs512-pubpriv-signing-key
+        file: ./test_rsa.pub    # or you can use openssl to generate your locally, following https://github.com/labbsr0x/convid-accounts-backend/blob/master/create-keys.sh
