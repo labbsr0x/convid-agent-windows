@@ -18,3 +18,21 @@ To test, you put the Accounts server URL and a Company Identification that alrea
 
 
 
+## Building and Packaging
+
+### Enrollment Application (Gonzaga)
+
+To package a instalation for an specific AccountID you can use the environment variables on the `wails build` command:
+- `REACT_APP_ACCOUNT_ID`: AccountId related to the application
+- `REACT_APP_SERVER_ADDRESS`: Accounts Backend API server
+- `REACT_APP_SEALED`: so the application does not show Server Address on the main screen
+
+**Example:** `REACT_APP_ACCOUNT_ID=12345678 REACT_APP_SERVER_ADDRESS=https://my-accounts-backend-server.com REACT_APP_SEALED=true wails build`
+
+### RDP Application (Chiquinho)
+
+To package a instalation for an specific AccountID you can use the environment variables on the `wails build` command:
+- `REACT_APP_SERVER_ADDRESS`: Accounts Backend API server
+- `REACT_APP_SEALED`: so the application does not show Server Address and AccountId fields on the main screen
+
+**Example:** `REACT_APP_SERVER_ADDRESS=https://my-accounts-backend-server.com REACT_APP_SEALED=true wails build`

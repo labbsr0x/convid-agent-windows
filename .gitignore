@@ -1,4 +1,7 @@
-test-rsa*
+*.pub
+*.key
+*.pem
+
 server
 
 # macos files
