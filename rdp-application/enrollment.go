@@ -62,7 +62,7 @@ func register(address string, machineID string) (result map[string]string, err e
 		"sshUsername": fmt.Sprintf("%s", resp["sshUsername"]),
 		"sshPassword": fmt.Sprintf("%s", resp["token"]),
 		"tunnelPort":  fmt.Sprintf("%s", resp["tunnelPort"]),
-		"withTotp":    fmt.Sprintf("%s", resp["withTotp"]),
+		"withTotp":    fmt.Sprintf("%b", resp["withTotp"]),
 	}
 
 	logrus.Infof("SSH Information received. Host: %s | Port: %s | User: %s | Password: %s | TunnelPort: %s", result["sshHost"], result["sshPort"], result["sshUsername"], result["sshPassword"], result["tunnelPort"])

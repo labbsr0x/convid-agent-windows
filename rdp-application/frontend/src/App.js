@@ -26,7 +26,7 @@ function AppModel() {
 
   const [address, setAddress] = React.useState("")
   const [machineID, setMachineID] = React.useState("")
-  const [withTotp, setWithTotp] = React.useState("")
+  const [withTotp, setWithTotp] = React.useState(false)
 
   window.wails.Events.On("ConnectionSucceed", _ => {
     setConnected(true)
@@ -72,14 +72,14 @@ function AppModel() {
           setBusy(false)
         }
       }).catch(setError)
-    }else{
+    } else {
       window.backend.doRegister(address, machineID).then(ret => {
         if (!ret.error) {
-          if(ret.withTotp){
+          if (ret.withTotp == "true") {
             setWithTotp(true)
             setError(false)
             setBusy(false)
-          }else{
+          } else {
             setMachineInfo(ret)
             setError(false)
           }
@@ -144,7 +144,7 @@ function App() {
       </div>
       {!busy && <>
         <div className="content-area">
-          {!machineInfo && !error && !connected && <EnrollmentForm enroll={enroll} defaultAddress={address} defaultMachineID={machineID} defaultWithTotp={withTotp}/>}
+          {!machineInfo && !error && !connected && <EnrollmentForm enroll={enroll} defaultAddress={address} defaultMachineID={machineID} defaultWithTotp={withTotp} />}
 
           {machineInfo && !error && connected && <div className="machineid-area">
             <div>{t("Successfully connected")}</div>

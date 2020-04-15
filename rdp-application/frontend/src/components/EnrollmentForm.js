@@ -45,7 +45,7 @@ function EnrollmentForm({ enroll, defaultAddress, defaultMachineID, defaultWithT
 
     const onEnroll = () => {
         if (serverAddress && machineID && (withTotp ? totpCode : true)) {
-            enroll(serverAddress, machineID, totpCode || null)
+            enroll(serverAddress, machineID, totpCode)
         }
     }
 
